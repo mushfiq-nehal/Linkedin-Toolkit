@@ -1,0 +1,71 @@
+---
+export interface Props {
+  headline: string;
+  subheadline: string;
+  primaryCTA?: { label: string; href: string };
+  secondaryCTA?: { label: string; href: string };
+  badge?: string;
+}
+
+const {
+  headline,
+  subheadline,
+  primaryCTA = { label: 'Browse all tools', href: '/tools/' },
+  secondaryCTA,
+  badge,
+} = Astro.props;
+---
+
+<section
+  class="relative overflow-hidden bg-[var(--color-canvas)] border-b border-[var(--color-hairline)]"
+  aria-label="Hero section"
+>
+  <!-- Subtle grid background -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    aria-hidden="true"
+    style="background-image: radial-gradient(circle at 1px 1px, var(--color-hairline) 1px, transparent 0); background-size: 32px 32px; opacity: 0.5;"
+  ></div>
+  <!-- Soft fade from grid to white at the bottom -->
+  <div
+    class="pointer-events-none absolute bottom-0 left-0 right-0 h-32"
+    aria-hidden="true"
+    style="background: linear-gradient(to bottom, transparent, var(--color-canvas));"
+  ></div>
+
+  <div class="wrap-page relative pt-24 pb-20 sm:pt-32 sm:pb-28">
+    <div class="max-w-3xl mx-auto text-center">
+      <!-- Badge -->
+      {badge && (
+        <div class="inline-flex items-center gap-2 mb-8">
+          <span class="inline-flex items-center gap-1.5 text-caption text-[var(--color-body)] bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] rounded-full px-3 py-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-success)] inline-block" aria-hidden="true"></span>
+            {badge}
+          </span>
+        </div>
+      )}
+
+      <!-- Headline -->
+      <h1 class="text-display-xl text-[var(--color-ink)] mb-6 sm:text-[56px] sm:leading-[56px] sm:tracking-[-2.8px]">
+        {headline}
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="text-body-lg text-[var(--color-body)] mb-10 max-w-2xl mx-auto">
+        {subheadline}
+      </p>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href={primaryCTA.href} class="btn-primary px-6 h-12 text-[16px]" style="border-radius: var(--radius-pill);">
+          {primaryCTA.label}
+        </a>
+        {secondaryCTA && (
+          <a href={secondaryCTA.href} class="btn-secondary px-6 h-12 text-[16px]" style="border-radius: var(--radius-pill);">
+            {secondaryCTA.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

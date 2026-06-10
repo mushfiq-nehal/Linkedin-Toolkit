@@ -1,11 +1,128 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import FeaturedTools from '../components/sections/FeaturedTools.astro';
+import Benefits from '../components/sections/Benefits.astro';
+import HowItWorks from '../components/sections/HowItWorks.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import SEOContent from '../components/sections/SEOContent.astro';
+import CTA from '../components/sections/CTA.astro';
+import { tools } from '../data/tools';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const homepageFAQ = [
+  {
+    question: 'Is LinkedIn Toolkit free to use?',
+    answer: 'Yes. All core tools are completely free to use with no account required. You can land on any tool page and start using it immediately.',
+  },
+  {
+    question: 'Do I need to create an account?',
+    answer: 'No account is required for any of the core tools. Just visit a tool page and start using it right away.',
+  },
+  {
+    question: 'Does LinkedIn Toolkit store my data?',
+    answer: 'No. All tools run entirely in your browser. Your text, headlines, and content are never sent to our servers.',
+  },
+  {
+    question: 'What LinkedIn tools are available?',
+    answer: 'LinkedIn Toolkit includes a Text Formatter (bold, italic, Unicode styles), Post Preview, Character Counter, Headline Analyzer, Hashtag Generator, Emoji Adder, Connection Message Templates, and About Section Templates — with more tools planned.',
+  },
+  {
+    question: 'Does LinkedIn allow Unicode text formatting?',
+    answer: 'Yes. LinkedIn does not support native Markdown formatting, but Unicode mathematical symbols render as bold, italic, and other styles. These display across all devices and platforms where LinkedIn is available.',
+  },
+  {
+    question: 'Who is LinkedIn Toolkit for?',
+    answer: 'LinkedIn Toolkit is built for LinkedIn creators, professionals building their personal brand, job seekers, recruiters, and content marketers who use LinkedIn regularly.',
+  },
+];
+
+const homepageSEOContent = `
+<p>LinkedIn is the world's largest professional network, with over 1 billion members. Standing out on LinkedIn requires more than just a good profile — it requires the right tools to format your content, optimize your headline, craft the perfect connection message, and track character limits.</p>
+
+<h3>Free LinkedIn formatting tools</h3>
+<p>LinkedIn's native editor doesn't support bold, italic, or other text formatting. Our <a href="/tools/linkedin-text-formatter/">LinkedIn Text Formatter</a> uses Unicode mathematical symbols to create visual formatting that works across all LinkedIn surfaces — posts, comments, headlines, and About sections.</p>
+
+<h3>LinkedIn character limits</h3>
+<p>Every LinkedIn field has a character limit. Our <a href="/tools/linkedin-character-counter/">LinkedIn Character Counter</a> tracks limits for posts (3,000), headlines (220), About sections (2,600), and connection messages (300) with real-time progress indicators.</p>
+
+<h3>LinkedIn headline optimization</h3>
+<p>Your LinkedIn headline appears in search results, connection requests, and post notifications. Our <a href="/tools/linkedin-headline-analyzer/">LinkedIn Headline Analyzer</a> scores your headline for clarity, length, and keyword optimization with actionable recommendations.</p>
+
+<h3>LinkedIn post preview</h3>
+<p>Before you publish, see exactly how your post will appear on LinkedIn. Our <a href="/tools/linkedin-post-preview/">LinkedIn Post Preview</a> tool simulates the desktop and mobile post experience, including the "See more" truncation point.</p>
+
+<h3>LinkedIn connection messages</h3>
+<p>Personalized connection requests get accepted. Our <a href="/tools/linkedin-connection-message-templates/">LinkedIn Connection Message Templates</a> give you proven templates for networking, recruiter outreach, job applications, and follow-ups.</p>
+`;
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'LinkedIn Toolkit',
+  url: 'https://linkedintoolkit.com',
+  description: 'Free LinkedIn tools for creators, professionals, job seekers, and recruiters.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://linkedintoolkit.com/tools/?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+};
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="LinkedIn Toolkit — Free LinkedIn Tools for Professionals"
+  description="Free LinkedIn tools for creators, job seekers, and professionals. Text Formatter, Post Preview, Character Counter, Headline Analyzer, Hashtag Generator, and more. No account required."
+  schema={websiteSchema}
+  breadcrumbs={[{ name: 'Home', url: '/' }]}
+>
+  <Hero
+    headline="Free LinkedIn tools that work."
+    subheadline="Format posts, analyze headlines, preview content, and build your LinkedIn presence. Every tool is free, instant, and works without an account."
+    primaryCTA={{ label: 'Browse all tools', href: '/tools/' }}
+    secondaryCTA={{ label: 'Text Formatter', href: '/tools/linkedin-text-formatter/' }}
+    badge="8 free tools available"
+  />
+
+  <FeaturedTools tools={tools} />
+
+  <Benefits />
+
+  <HowItWorks />
+
+  <FAQ items={homepageFAQ} title="Frequently asked questions." />
+
+  <SEOContent
+    heading="The LinkedIn toolkit for serious professionals."
+    content={homepageSEOContent}
+  />
+
+  <!-- Internal links to content hubs -->
+  <section class="section-padding bg-[var(--color-canvas-soft-2)] border-t border-[var(--color-hairline)]" aria-labelledby="content-hubs-heading">
+    <div class="wrap-page">
+      <h2 id="content-hubs-heading" class="text-display-md text-[var(--color-ink)] mb-8">Explore more resources.</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { title: 'All Tools', description: 'Browse every LinkedIn tool in one place.', href: '/tools/', icon: '⚙️' },
+          { title: 'Guides', description: 'In-depth guides for LinkedIn best practices.', href: '/guides/', icon: '📖' },
+          { title: 'Templates', description: 'Ready-to-use message and profile templates.', href: '/templates/', icon: '📋' },
+          { title: 'Resources', description: 'Curated resources for LinkedIn growth.', href: '/resources/', icon: '📚' },
+        ].map((hub) => (
+          <a
+            href={hub.href}
+            class="flex flex-col gap-3 p-6 rounded-[var(--radius-md)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-md)] transition-all no-underline"
+          >
+            <span class="text-2xl" aria-hidden="true">{hub.icon}</span>
+            <h3 class="text-body-md-strong text-[var(--color-ink)]">{hub.title}</h3>
+            <p class="text-body-sm text-[var(--color-body)] leading-5">{hub.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    heading="Start using LinkedIn Toolkit today."
+    body="Free tools, no account required. Get more from LinkedIn starting now."
+    primaryCTA={{ label: 'Browse all tools', href: '/tools/' }}
+  />
+</BaseLayout>

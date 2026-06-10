@@ -1,0 +1,73 @@
+---
+export interface Props {
+  heading: string;
+  content: string;
+}
+
+const { heading, content } = Astro.props;
+---
+
+<section class="section-padding border-t border-[var(--color-hairline)]" aria-labelledby="seo-content-heading">
+  <div class="wrap-page">
+    <div class="max-w-3xl">
+      <h2 id="seo-content-heading" class="text-display-md text-[var(--color-ink)] mb-6">
+        {heading}
+      </h2>
+      <div class="prose-content text-body-md text-[var(--color-body)] leading-7">
+        <Fragment set:html={content} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .prose-content :global(h3) {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.3px;
+  }
+
+  .prose-content :global(p) {
+    margin-bottom: 1rem;
+    color: var(--color-body);
+    line-height: 1.75;
+  }
+
+  .prose-content :global(ul) {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+  }
+
+  .prose-content :global(ul li) {
+    padding-left: 1.25rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+    color: var(--color-body);
+  }
+
+  .prose-content :global(ul li::before) {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-mute);
+  }
+
+  .prose-content :global(a) {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose-content :global(a:hover) {
+    color: var(--color-link-deep);
+  }
+
+  .prose-content :global(strong) {
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+</style>

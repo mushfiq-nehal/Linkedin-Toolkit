@@ -1,0 +1,74 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import PostPreviewTool from '../../components/tools/PostPreviewTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('post-preview')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'How accurate is the LinkedIn post preview?',
+    answer: 'The preview is a close approximation of how LinkedIn renders posts. Exact rendering may vary slightly across LinkedIn versions, devices, and account types, but the truncation point and general layout are accurate.',
+  },
+  {
+    question: 'Where does LinkedIn truncate posts with "see more"?',
+    answer: 'LinkedIn shows a "see more" button after approximately 210 characters on desktop and 140 characters on mobile. Content beyond these thresholds is hidden until the reader expands the post.',
+  },
+  {
+    question: 'Should I put my most important content before the "see more" cutoff?',
+    answer: 'Yes. The content before the truncation point is the hook — it needs to compel the reader to tap "see more". A strong opening line dramatically increases engagement.',
+  },
+  {
+    question: 'Does the preview show how images appear in posts?',
+    answer: 'This version of the preview focuses on text posts. Image previews are on our roadmap for a future update.',
+  },
+  {
+    question: 'Can I preview LinkedIn articles?',
+    answer: 'This tool is designed for standard LinkedIn posts, not articles. LinkedIn articles have different formatting and layout than feed posts.',
+  },
+];
+
+const seoContent = {
+  heading: 'Why preview your LinkedIn posts.',
+  content: `
+<p>Publishing a LinkedIn post without previewing it is like sending an email without reading it back. The LinkedIn post preview tool lets you see exactly how your post will appear to your network — including the critical truncation point where LinkedIn hides content behind "see more".</p>
+
+<h3>The importance of the LinkedIn hook</h3>
+<p>LinkedIn shows the first ~210 characters of a post on desktop and ~140 on mobile before truncating with "see more". Everything before that cutoff is your hook — your one chance to convince the reader to engage.</p>
+
+<p>Most high-performing LinkedIn posts front-load their value: a compelling question, a surprising statistic, a bold claim, or a provocative statement that makes scrolling impossible.</p>
+
+<h3>Desktop vs. mobile LinkedIn layouts</h3>
+<p>LinkedIn's feed looks different on desktop and mobile. The column width is narrower on mobile, which means line breaks happen at different points. A post formatted beautifully on desktop can look broken on mobile, and vice versa.</p>
+
+<ul>
+  <li>Mobile: narrower column, shorter truncation (~140 characters)</li>
+  <li>Desktop: wider column, longer truncation (~210 characters)</li>
+  <li>Always preview on both devices before publishing</li>
+</ul>
+
+<h3>How to write a strong LinkedIn opening line</h3>
+<ul>
+  <li>Open with a question your audience wants answered</li>
+  <li>Lead with a surprising number or fact</li>
+  <li>Make a bold, specific claim</li>
+  <li>Tell the reader exactly what they'll get if they read more</li>
+  <li>Avoid opening with "I" — readers care about themselves, not you (at first)</li>
+</ul>
+
+<p>For more tips, see our <a href="/guides/linkedin-post-formatting/">LinkedIn Post Formatting Guide</a> or use the <a href="/tools/linkedin-character-counter/">LinkedIn Character Counter</a> to track your post length.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Post Preview — See How Your Post Looks Before Publishing | LinkedIn Toolkit"
+  description="Preview how your LinkedIn post will look on desktop and mobile before publishing. See exactly where 'see more' appears. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <PostPreviewTool client:load />
+</ToolLayout>

@@ -1,46 +1,86 @@
-# Astro Starter Kit: Basics
+# LinkedIn Toolkit
 
-```sh
-npm create astro@latest -- --template basics
+**Domain:** linkedintoolkit.com
+
+Free LinkedIn tools for creators, professionals, job seekers, and recruiters. Built with Astro, Tailwind CSS v4, TypeScript, and React.
+
+## V1 Tools
+
+| Tool | URL |
+|------|-----|
+| LinkedIn Text Formatter | `/tools/linkedin-text-formatter/` |
+| LinkedIn Post Preview | `/tools/linkedin-post-preview/` |
+| LinkedIn Character Counter | `/tools/linkedin-character-counter/` |
+| LinkedIn Headline Analyzer | `/tools/linkedin-headline-analyzer/` |
+| LinkedIn Hashtag Generator | `/tools/linkedin-hashtag-generator/` |
+| LinkedIn Emoji Adder | `/tools/linkedin-emoji-adder/` |
+| LinkedIn Connection Message Templates | `/tools/linkedin-connection-message-templates/` |
+| LinkedIn About Section Templates | `/tools/linkedin-about-section-templates/` |
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── layout/        Navbar, Footer
+│   ├── sections/      Hero, FeaturedTools, Benefits, HowItWorks, FAQ, SEOContent, RelatedTools, CTA
+│   ├── seo/           SEO head component
+│   ├── tools/         React interactive tool components
+│   └── ui/            ToolCard, reusable UI
+├── data/              tools.ts, guides.ts, templates.ts
+├── layouts/           BaseLayout.astro, ToolLayout.astro
+├── lib/
+│   ├── ai/            Provider abstraction (future AI features)
+│   └── tools/         Tool logic: text-formatter, character-counter, headline-analyzer, hashtag-generator
+├── pages/
+│   ├── tools/         8 tool pages
+│   ├── guides/        Guide pages
+│   ├── templates/     Template pages
+│   └── resources/     Resources index
+└── styles/            global.css (Tailwind v4 + design tokens)
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Tech Stack
 
-## 🚀 Project Structure
+- **Framework:** Astro 6
+- **Styling:** Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **Components:** React 19 (for interactive tools)
+- **TypeScript:** Strict mode
+- **SEO:** Sitemap via `@astrojs/sitemap`, structured data, OG/Twitter cards
+- **Design System:** Vercel-inspired (see `DESIGN.md`)
 
-Inside of your Astro project, you'll see the following folders and files:
+## Development
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm install
+npm run dev
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Build
 
-## 🧞 Commands
+```bash
+npm run build
+npm run preview
+```
 
-All commands are run from the root of the project, from a terminal:
+## AI Features (Future)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+The `src/lib/ai/provider.ts` module provides a provider-agnostic AI abstraction layer supporting OpenRouter, OpenAI, and Anthropic. The site is fully functional without AI — AI features are opt-in and additive.
 
-## 👀 Want to learn more?
+## SEO Architecture
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Dynamic metadata via SEO component
+- Structured data (WebSite, FAQPage, SoftwareApplication, Article)
+- Sitemap auto-generated via `@astrojs/sitemap`
+- Canonical URLs
+- OG + Twitter cards
+- Breadcrumb navigation + schema
+
+## Content Structure
+
+```
+/tools/          — Tool pages (fully functional, no account required)
+/guides/         — In-depth guides with internal links to tools
+/templates/      — Copy-ready templates with internal links
+/resources/      — Content hub linking everything together
+```

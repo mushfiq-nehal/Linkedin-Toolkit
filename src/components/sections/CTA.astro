@@ -1,0 +1,38 @@
+---
+export interface Props {
+  heading?: string;
+  body?: string;
+  primaryCTA?: { label: string; href: string };
+  secondaryCTA?: { label: string; href: string };
+}
+
+const {
+  heading = 'Start using LinkedIn Toolkit today.',
+  body = 'Free tools for LinkedIn professionals. No account required.',
+  primaryCTA = { label: 'Browse all tools', href: '/tools/' },
+  secondaryCTA,
+} = Astro.props;
+---
+
+<section class="section-padding bg-[var(--color-canvas)] border-t border-[var(--color-hairline)]" aria-labelledby="cta-heading">
+  <div class="wrap-page text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 id="cta-heading" class="text-display-lg text-[var(--color-ink)] mb-4">
+        {heading}
+      </h2>
+      <p class="text-body-lg text-[var(--color-body)] mb-8">
+        {body}
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href={primaryCTA.href} class="btn-primary px-6 h-12 text-[16px]" style="border-radius: var(--radius-pill);">
+          {primaryCTA.label}
+        </a>
+        {secondaryCTA && (
+          <a href={secondaryCTA.href} class="btn-secondary px-6 h-12 text-[16px]" style="border-radius: var(--radius-pill);">
+            {secondaryCTA.label}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

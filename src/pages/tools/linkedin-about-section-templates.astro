@@ -1,0 +1,73 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import AboutSectionTool from '../../components/tools/AboutSectionTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('about-section-templates')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'How long should my LinkedIn About section be?',
+    answer: 'LinkedIn allows up to 2,600 characters for the About section, but only the first ~300 characters are visible before the "See more" button. Write a compelling opening that hooks the reader, then expand with your full story.',
+  },
+  {
+    question: 'Should my LinkedIn About section be written in first person?',
+    answer: 'Yes. Writing in first person ("I built...", "I specialize in...") is more personal and engaging than third person ("John is a..."). First-person About sections consistently perform better on LinkedIn.',
+  },
+  {
+    question: 'What should I include in my LinkedIn About section?',
+    answer: 'A strong LinkedIn About section typically includes: what you do and who you do it for, your key skills and specializations, notable achievements (with specific numbers), your professional background, and what you\'re currently focused on or looking for.',
+  },
+  {
+    question: 'Should I use keywords in my LinkedIn About section?',
+    answer: 'Yes. LinkedIn\'s search algorithm indexes your About section. Include relevant job titles, skills, tools, and industry terms that recruiters and connections search for in your field.',
+  },
+  {
+    question: 'How often should I update my LinkedIn About section?',
+    answer: 'Update your About section when you change roles, develop new skills, or shift your professional focus. At minimum, review it annually to ensure it accurately represents your current situation.',
+  },
+];
+
+const seoContent = {
+  heading: 'How to write a LinkedIn About section that works.',
+  content: `
+<p>Your LinkedIn About section is your professional narrative — the place where you tell your story in your own words. A well-written About section helps you appear in LinkedIn search results, makes a strong first impression on profile visitors, and communicates your professional value clearly.</p>
+
+<h3>LinkedIn About section structure that works</h3>
+<ul>
+  <li><strong>Opening hook:</strong> The first 300 characters are visible without clicking "See more" — make them count</li>
+  <li><strong>What you do:</strong> Clearly state your role, specialty, and who you serve</li>
+  <li><strong>Key achievements:</strong> Specific, quantified results from your work</li>
+  <li><strong>Background:</strong> Brief relevant experience and education</li>
+  <li><strong>Current focus:</strong> What you're working on or looking for now</li>
+  <li><strong>CTA:</strong> How to reach you or what kind of connections you welcome</li>
+</ul>
+
+<h3>LinkedIn About section tips by role</h3>
+<p>Different professions have different conventions for LinkedIn About sections. Engineers benefit from including their tech stack. PMs should highlight 0-to-1 work and cross-functional leadership. Marketers should quantify growth metrics. Recruiters should define their niche and placement track record.</p>
+
+<h3>What to avoid in your LinkedIn About section</h3>
+<ul>
+  <li>Leaving it blank (very common — and a missed opportunity)</li>
+  <li>Copying your resume verbatim</li>
+  <li>Generic phrases like "results-driven professional" or "team player"</li>
+  <li>Writing in third person</li>
+  <li>Forgetting to include keywords for your field</li>
+</ul>
+
+<p>After writing your About section, use the <a href="/tools/linkedin-character-counter/">Character Counter</a> to ensure you're within the 2,600-character limit. See more examples in our <a href="/templates/linkedin-about-section-examples/">About Section Examples</a> collection.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn About Section Templates — By Role | LinkedIn Toolkit"
+  description="Professional LinkedIn About section templates for students, software engineers, product managers, recruiters, and marketers. Customizable, copy-ready templates. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <AboutSectionTool client:load />
+</ToolLayout>

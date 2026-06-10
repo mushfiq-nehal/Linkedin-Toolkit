@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import RelatedTools from '../../components/sections/RelatedTools.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { getToolById } from '../../data/tools';
+
+const relatedTools = [
+  getToolById('headline-analyzer')!,
+  getToolById('character-counter')!,
+];
+
+const faq = [
+  {
+    question: 'How long should a LinkedIn headline be?',
+    answer: 'Between 100 and 160 characters tends to work best. Short enough to be scannable, long enough to include your role, specialization, and a keyword or two.',
+  },
+  {
+    question: 'Should I include my company name in my LinkedIn headline?',
+    answer: 'Only if the company is well-known or adds credibility. Instead of "Marketing Manager at Acme Corp", consider "Marketing Manager | B2B SaaS | Content-Led Growth" — which communicates more about your expertise.',
+  },
+  {
+    question: 'Can I change my LinkedIn headline without my connections being notified?',
+    answer: 'Yes. You can disable profile change notifications in your LinkedIn settings before updating your headline. Go to Settings → Visibility → Share profile updates with your network and toggle it off.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'LinkedIn Headline Examples That Work',
+  description: '50+ LinkedIn headline examples for every role and career stage.',
+  url: 'https://linkedintoolkit.com/guides/linkedin-headline-examples/',
+  author: { '@type': 'Organization', name: 'LinkedIn Toolkit' },
+  publisher: { '@type': 'Organization', name: 'LinkedIn Toolkit' },
+  datePublished: '2024-02-10',
+  dateModified: '2024-06-01',
+};
+
+const examplesByRole = [
+  {
+    role: 'Software Engineers',
+    examples: [
+      'Software Engineer | React & TypeScript | Building scalable web apps',
+      'Full Stack Developer | Node.js, Python, AWS | Previously Stripe',
+      'Senior Backend Engineer | Distributed systems | Open source contributor',
+      'Frontend Engineer | React | Performance & accessibility focused',
+    ],
+  },
+  {
+    role: 'Product Managers',
+    examples: [
+      'Product Manager at [Company] | B2B SaaS | 0→1 Product Strategy',
+      'Senior PM | Consumer fintech | 3x shipped & scaled products',
+      'Head of Product | Platform & API products | Previously Google',
+      'Product Manager | Mobile-first | User research & rapid prototyping',
+    ],
+  },
+  {
+    role: 'Marketers',
+    examples: [
+      'Content Marketing Manager | B2B SaaS | SEO & thought leadership',
+      'Growth Marketer | From 0 to 100k users | Organic & paid',
+      'Marketing Director | Brand & demand gen | $50M+ ARR companies',
+      'SEO Specialist | Technical SEO & content strategy | 3x organic growth',
+    ],
+  },
+  {
+    role: 'Recruiters',
+    examples: [
+      'Technical Recruiter | Engineering & Product | 500+ placements',
+      'Senior Recruiter | VC-backed startups | Building founding teams',
+      'Head of Talent | High-growth SaaS | Helping great companies hire',
+      'Executive Recruiter | VP & C-Suite | Technology sector',
+    ],
+  },
+  {
+    role: 'Designers',
+    examples: [
+      'Product Designer | B2C apps | Research-driven design',
+      'Senior UX Designer | Enterprise SaaS | Simplifying complexity',
+      'Design Lead | 0→1 products | Figma & design systems',
+      'UX/UI Designer | E-commerce & fintech | Accessibility-first',
+    ],
+  },
+  {
+    role: 'Students & Early Career',
+    examples: [
+      'CS Student at [University] | ML & web development | Looking for 2024 internships',
+      'Recent Grad | Marketing & Communications | Open to entry-level roles',
+      'Computer Science Junior | Building projects in React & Python',
+      'MBA Candidate | Strategy consulting & product management',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="LinkedIn Headline Examples — 50+ Examples by Role | LinkedIn Toolkit"
+  description="50+ LinkedIn headline examples for software engineers, product managers, marketers, recruiters, designers, and students. Includes tips on what makes each headline effective."
+  ogType="article"
+  schema={articleSchema}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Guides', url: '/guides/' },
+    { name: 'LinkedIn Headline Examples', url: '/guides/linkedin-headline-examples/' },
+  ]}
+>
+  <!-- Breadcrumb -->
+  <nav class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-label="Breadcrumb">
+    <div class="wrap-page py-3">
+      <ol class="flex items-center gap-2 list-none m-0 p-0 text-caption text-[var(--color-mute)]">
+        <li><a href="/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline transition-colors">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/guides/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline transition-colors">Guides</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-[var(--color-ink)] font-medium">Headline Examples</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-12 pb-10">
+    <div class="wrap-page">
+      <div class="max-w-2xl">
+        <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Guide</span>
+        <h1 class="text-display-lg text-[var(--color-ink)] mb-4">
+          LinkedIn headline examples that work.
+        </h1>
+        <p class="text-body-lg text-[var(--color-body)]">
+          50+ headline examples for every role and career stage. See what makes each one effective.
+        </p>
+        <p class="text-caption text-[var(--color-mute)] mt-4">Updated June 2024</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      <div class="max-w-3xl">
+        <!-- Intro -->
+        <div class="mb-12">
+          <p class="text-body-lg text-[var(--color-body)] mb-6 leading-8">
+            Your LinkedIn headline is the first thing people see when they find you in search, receive a connection request, or see your comment. A strong headline communicates your professional identity in 220 characters or less.
+          </p>
+          <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+            The best headlines share these characteristics:
+          </p>
+          <ul class="list-none p-0 m-0 mb-6 flex flex-col gap-3">
+            {[
+              'Clear role or job title',
+              'Relevant industry keywords',
+              'Specific specialization or niche',
+              'Structured with separators (| or ·) for scannability',
+              'Value-focused — what you do, not just what you are',
+            ].map((point) => (
+              <li class="flex items-start gap-3 text-body-sm text-[var(--color-body)]">
+                <span class="text-[var(--color-mute)] mt-0.5">—</span>
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Examples by role -->
+        {examplesByRole.map((group) => (
+          <section class="mb-12" aria-labelledby={`role-${group.role.toLowerCase().replace(/\s+/g, '-')}`}>
+            <h2
+              id={`role-${group.role.toLowerCase().replace(/\s+/g, '-')}`}
+              class="text-display-sm text-[var(--color-ink)] mb-5 pb-3 border-b border-[var(--color-hairline)]"
+            >
+              {group.role}
+            </h2>
+            <div class="flex flex-col gap-3">
+              {group.examples.map((example) => (
+                <div class="flex items-start gap-4 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] px-4 py-3 group">
+                  <p class="text-body-sm text-[var(--color-ink)] flex-1 font-medium">{example}</p>
+                  <button
+                    class="text-caption text-[var(--color-mute)] hover:text-[var(--color-ink)] transition-colors shrink-0 copy-btn"
+                    data-text={example}
+                    aria-label={`Copy headline: ${example}`}
+                  >
+                    Copy
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+
+        <!-- Analyze your headline -->
+        <div class="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-6 mb-12">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-3">Analyze your headline.</h2>
+          <p class="text-body-sm text-[var(--color-body)] mb-5">
+            Use the Headline Analyzer to score your headline across clarity, length, keywords, and specificity.
+          </p>
+          <a href="/tools/linkedin-headline-analyzer/" class="btn-primary inline-flex" style="border-radius: var(--radius-pill);">
+            Open Headline Analyzer
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <FAQ items={faq} title="Frequently asked questions." />
+
+  <RelatedTools tools={relatedTools} title="Tools for this guide." />
+
+  <CTA
+    heading="Ready to write a better LinkedIn headline?"
+    body="Score your headline and get specific improvement recommendations."
+    primaryCTA={{ label: 'Analyze your headline', href: '/tools/linkedin-headline-analyzer/' }}
+    secondaryCTA={{ label: 'Browse all tools', href: '/tools/' }}
+  />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = (btn as HTMLElement).dataset.text ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    });
+  });
+</script>

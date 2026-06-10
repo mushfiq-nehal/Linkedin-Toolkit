@@ -1,0 +1,42 @@
+---
+import type { Tool } from '../../data/tools';
+import ToolCard from '../ui/ToolCard.astro';
+
+export interface Props {
+  tools: Tool[];
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  tools,
+  title = 'Every tool you need for LinkedIn.',
+  subtitle = 'Free tools that work immediately — no account required.',
+} = Astro.props;
+---
+
+<section class="section-padding bg-[var(--color-canvas-soft)]" aria-labelledby="featured-tools-heading">
+  <div class="wrap-page">
+    <div class="max-w-2xl mb-12">
+      <h2 id="featured-tools-heading" class="text-display-lg text-[var(--color-ink)] mb-4">
+        {title}
+      </h2>
+      <p class="text-body-lg text-[var(--color-body)]">{subtitle}</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      {tools.map((tool) => (
+        <ToolCard tool={tool} />
+      ))}
+    </div>
+
+    <div class="mt-10">
+      <a href="/tools/" class="btn-secondary inline-flex">
+        View all tools
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="ml-1">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

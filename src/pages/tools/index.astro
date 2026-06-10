@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import { tools } from '../../data/tools';
+
+const categories = [
+  { id: 'formatting', label: 'Formatting' },
+  { id: 'analytics', label: 'Analytics' },
+  { id: 'templates', label: 'Templates' },
+  { id: 'content', label: 'Content' },
+] as const;
+---
+
+<BaseLayout
+  title="LinkedIn Tools — Free LinkedIn Tools for Professionals | LinkedIn Toolkit"
+  description="Browse all free LinkedIn tools: Text Formatter, Post Preview, Character Counter, Headline Analyzer, Hashtag Generator, Emoji Adder, Connection Message Templates, and About Section Templates."
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Tools', url: '/tools/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Free LinkedIn Tools</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Every LinkedIn tool you need, free.
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        {tools.length} tools for formatting, analytics, templates, and content. No account required.
+      </p>
+    </div>
+  </div>
+
+  <!-- Tools by category -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      {categories.map((cat) => {
+        const catTools = tools.filter((t) => t.category === cat.id);
+        if (catTools.length === 0) return null;
+        return (
+          <section class="mb-16 last:mb-0" aria-labelledby={`cat-${cat.id}`}>
+            <h2 id={`cat-${cat.id}`} class="text-display-sm text-[var(--color-ink)] mb-6 pb-4 border-b border-[var(--color-hairline)]">
+              {cat.label}
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {catTools.map((tool) => (
+                <ToolCard tool={tool} />
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- Internal links -->
+  <section class="section-padding border-t border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-labelledby="also-explore">
+    <div class="wrap-page">
+      <h2 id="also-explore" class="text-display-sm text-[var(--color-ink)] mb-6">Also explore.</h2>
+      <div class="flex flex-wrap gap-3">
+        {[
+          { label: 'Guides', href: '/guides/' },
+          { label: 'Templates', href: '/templates/' },
+          { label: 'Resources', href: '/resources/' },
+          { label: 'Post Formatting Guide', href: '/guides/linkedin-post-formatting/' },
+          { label: 'Headline Examples', href: '/guides/linkedin-headline-examples/' },
+          { label: 'Connection Message Templates', href: '/templates/linkedin-connection-message-templates/' },
+          { label: 'About Section Examples', href: '/templates/linkedin-about-section-examples/' },
+        ].map((link) => (
+          <a
+            href={link.href}
+            class="text-body-sm text-[var(--color-body)] hover:text-[var(--color-ink)] bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] rounded-full px-4 py-2 no-underline transition-colors"
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

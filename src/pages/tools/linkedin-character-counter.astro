@@ -1,0 +1,72 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import CharacterCounterTool from '../../components/tools/CharacterCounterTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('character-counter')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'What is the LinkedIn post character limit?',
+    answer: 'LinkedIn posts have a limit of 3,000 characters. Posts exceeding this length cannot be published.',
+  },
+  {
+    question: 'What is the LinkedIn headline character limit?',
+    answer: 'LinkedIn headlines are limited to 220 characters. Note that headlines are often truncated to around 120 characters in search results and notifications.',
+  },
+  {
+    question: 'What is the LinkedIn About section character limit?',
+    answer: 'The LinkedIn About (Summary) section allows up to 2,600 characters.',
+  },
+  {
+    question: 'What is the connection message character limit on LinkedIn?',
+    answer: 'LinkedIn connection request messages are limited to 300 characters.',
+  },
+  {
+    question: 'Does LinkedIn count spaces in the character limit?',
+    answer: 'Yes. LinkedIn counts all characters including spaces, line breaks, and special characters toward the character limit.',
+  },
+  {
+    question: 'Are LinkedIn emojis counted as one character?',
+    answer: 'Most emojis count as 1 character in the LinkedIn character counter, though some complex emoji sequences may count as 2.',
+  },
+];
+
+const seoContent = {
+  heading: 'LinkedIn character limits — complete reference.',
+  content: `
+<p>Every LinkedIn field has a character limit. Exceeding these limits prevents you from saving your content or sending messages. Knowing the limits ahead of time helps you write content that fits perfectly — without the frustration of being cut off mid-sentence.</p>
+
+<h3>LinkedIn character limit quick reference</h3>
+<ul>
+  <li><strong>Post:</strong> 3,000 characters</li>
+  <li><strong>Headline:</strong> 220 characters (displayed ~120 in search)</li>
+  <li><strong>About section:</strong> 2,600 characters</li>
+  <li><strong>Connection message:</strong> 300 characters</li>
+  <li><strong>First name:</strong> 20 characters</li>
+  <li><strong>Last name:</strong> 40 characters</li>
+  <li><strong>Recommendation:</strong> 3,000 characters</li>
+</ul>
+
+<h3>LinkedIn headline length best practices</h3>
+<p>While your headline can be up to 220 characters, LinkedIn displays approximately 120 characters in search results and notifications. Write your most important information in the first 120 characters, then use the remaining space for additional context.</p>
+
+<h3>How to optimize LinkedIn post length</h3>
+<p>Research suggests that LinkedIn posts between 1,500 and 2,000 characters tend to perform best for engagement. Short posts (under 500 characters) can work well for punchy content, while longer posts (1,500–3,000 characters) work well for storytelling and educational content.</p>
+
+<p>Use the <a href="/tools/linkedin-post-preview/">LinkedIn Post Preview</a> tool to see how your post length appears to readers, and the <a href="/tools/linkedin-text-formatter/">Text Formatter</a> to add structure with bold and italic styles.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Character Counter — Posts, Headlines, About Section | LinkedIn Toolkit"
+  description="Count characters for LinkedIn posts (3,000), headlines (220), About sections (2,600), and connection messages (300). Real-time progress indicators. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <CharacterCounterTool client:load />
+</ToolLayout>

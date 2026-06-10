@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { guides } from '../../data/guides';
+import { tools, getToolById } from '../../data/tools';
+---
+
+<BaseLayout
+  title="LinkedIn Guides — Tips, Strategies & Best Practices | LinkedIn Toolkit"
+  description="In-depth LinkedIn guides on post formatting, headline writing, and profile optimization. Written for creators, professionals, and job seekers."
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guides/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Guides</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        LinkedIn guides for serious professionals.
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        In-depth, practical guides on LinkedIn formatting, headline writing, and profile optimization.
+      </p>
+    </div>
+  </div>
+
+  <!-- Guides list -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      <div class="flex flex-col gap-6 max-w-2xl">
+        {guides.map((guide) => (
+          <a
+            href={guide.href}
+            class="flex flex-col gap-3 p-6 rounded-[var(--radius-md)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-lg)] transition-all no-underline group"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <h2 class="text-body-md-strong text-[var(--color-ink)] group-hover:text-[var(--color-ink)]">
+                {guide.title}
+              </h2>
+              <svg class="w-4 h-4 text-[var(--color-mute)] group-hover:text-[var(--color-ink)] transition-colors shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <p class="text-body-sm text-[var(--color-body)] leading-5">{guide.description}</p>
+            <p class="text-caption-mono text-[var(--color-mute)] italic">"{guide.excerpt}"</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Related tools -->
+  <section class="section-padding border-t border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-labelledby="guides-tools-heading">
+    <div class="wrap-page">
+      <h2 id="guides-tools-heading" class="text-display-sm text-[var(--color-ink)] mb-2">Put the guides into practice.</h2>
+      <p class="text-body-sm text-[var(--color-body)] mb-8">Use these tools alongside the guides for best results.</p>
+      <div class="flex flex-wrap gap-3">
+        {tools.slice(0, 5).map((tool) => (
+          <a
+            href={tool.href}
+            class="text-body-sm text-[var(--color-body)] hover:text-[var(--color-ink)] bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] rounded-full px-4 py-2 no-underline transition-colors"
+          >
+            {tool.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

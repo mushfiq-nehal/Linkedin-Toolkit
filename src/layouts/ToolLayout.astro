@@ -1,0 +1,108 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import RelatedTools from '../components/sections/RelatedTools.astro';
+import FAQ from '../components/sections/FAQ.astro';
+import SEOContent from '../components/sections/SEOContent.astro';
+import type { Tool } from '../data/tools';
+import type { FAQItem } from '../components/sections/FAQ.astro';
+
+export interface Props {
+  tool: Tool;
+  title: string;
+  description: string;
+  faq?: FAQItem[];
+  seoContent?: { heading: string; content: string };
+  relatedTools?: Tool[];
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  schema?: object;
+}
+
+const {
+  tool,
+  title,
+  description,
+  faq = [],
+  seoContent,
+  relatedTools = [],
+  breadcrumbs,
+  schema,
+} = Astro.props;
+
+const defaultBreadcrumbs = breadcrumbs ?? [
+  { name: 'Home', url: '/' },
+  { name: 'Tools', url: '/tools/' },
+  { name: tool.name, url: tool.href },
+];
+
+const toolSchema = schema ?? {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: tool.name,
+  description: description,
+  url: `https://linkedintoolkit.com${tool.href}`,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Any',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={defaultBreadcrumbs}
+  schema={toolSchema}
+  ogType="website"
+>
+  <!-- Breadcrumb -->
+  <nav
+    class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]"
+    aria-label="Breadcrumb"
+  >
+    <div class="wrap-page py-3">
+      <ol class="flex items-center gap-2 list-none m-0 p-0 text-caption text-[var(--color-mute)]" role="list">
+        <li><a href="/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline transition-colors">Home</a></li>
+        <li aria-hidden="true"><span>/</span></li>
+        <li><a href="/tools/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline transition-colors">Tools</a></li>
+        <li aria-hidden="true"><span>/</span></li>
+        <li aria-current="page" class="text-[var(--color-ink)] font-medium">{tool.name}</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Tool header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-12 pb-10">
+    <div class="wrap-page">
+      <div class="max-w-3xl">
+        <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">
+          Free LinkedIn Tool
+        </span>
+        <h1 class="text-display-lg text-[var(--color-ink)] mb-4">
+          {tool.name}
+        </h1>
+        <p class="text-body-lg text-[var(--color-body)]">
+          {description}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tool content (the interactive tool itself) -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-12 min-h-[320px]">
+      <slot />
+    </div>
+  </div>
+
+  <!-- FAQ section -->
+  {faq.length > 0 && <FAQ items={faq} />}
+
+  <!-- SEO content section -->
+  {seoContent && <SEOContent heading={seoContent.heading} content={seoContent.content} />}
+
+  <!-- Related tools section -->
+  {relatedTools.length > 0 && <RelatedTools tools={relatedTools} />}
+</BaseLayout>

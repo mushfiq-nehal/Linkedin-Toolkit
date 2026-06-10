@@ -1,0 +1,64 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import EmojiAdderTool from '../../components/tools/EmojiAdderTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('emoji-adder')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'Are emojis professional on LinkedIn?',
+    answer: 'Used in moderation, emojis are widely accepted on LinkedIn and can improve post readability and engagement. Bullet-point emojis (▶️, ✅, 📌) are especially popular for structuring lists. Avoid excessive or irrelevant emoji use.',
+  },
+  {
+    question: 'Do emojis help LinkedIn post engagement?',
+    answer: 'Studies and creator experience suggest that emojis can increase post engagement by making content more visually scannable and expressive. The key is using relevant emojis that match your content\'s tone.',
+  },
+  {
+    question: 'Can I use emojis in my LinkedIn headline?',
+    answer: 'Yes, you can use emojis in your LinkedIn headline, though most professionals keep headlines clean and text-only. A single emoji separator (•) or pointing emoji (👉) can add visual interest without appearing unprofessional.',
+  },
+  {
+    question: 'How do I add emojis to LinkedIn on desktop?',
+    answer: 'On Windows, use the keyboard shortcut Win + . (period) to open the emoji picker. On Mac, use Control + Command + Space. Or use this Emoji Adder tool to pick and copy emojis, then paste them into LinkedIn.',
+  },
+];
+
+const seoContent = {
+  heading: 'How to use emojis professionally on LinkedIn.',
+  content: `
+<p>Emojis are no longer just for casual social media. LinkedIn creators increasingly use emojis to structure posts, add visual interest, and make content easier to scan. The key is using them intentionally and professionally.</p>
+
+<h3>Best emojis for LinkedIn posts</h3>
+<ul>
+  <li><strong>Bullets and structure:</strong> ▶️ ◆ ✅ 📌 🔹 — for organized lists and key points</li>
+  <li><strong>Emphasis:</strong> 💡 🎯 ⭐ 🔥 — for highlighting important insights</li>
+  <li><strong>Business context:</strong> 💼 📊 📈 🤝 — for professional and business content</li>
+  <li><strong>Actions:</strong> 👇 👉 ⬇️ — for directing attention to links or calls to action</li>
+</ul>
+
+<h3>LinkedIn emoji best practices</h3>
+<ul>
+  <li>Use emojis to replace bullet points — it adds structure without looking clinical</li>
+  <li>Place emojis at the start of a line to create visual hierarchy</li>
+  <li>Match emoji tone to content — don't use party emojis in serious professional posts</li>
+  <li>Limit yourself to 1-2 emojis per paragraph to avoid visual clutter</li>
+  <li>Screen readers read emojis aloud — keep accessibility in mind</li>
+</ul>
+
+<p>For full post formatting with bold and italic styles, see the <a href="/tools/linkedin-text-formatter/">LinkedIn Text Formatter</a>.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Emoji Adder — Professional Emojis for LinkedIn Posts | LinkedIn Toolkit"
+  description="Browse professional emoji categories and insert them into your LinkedIn posts with one click. Bullet points, business emojis, and more. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <EmojiAdderTool client:load />
+</ToolLayout>

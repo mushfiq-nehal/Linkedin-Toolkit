@@ -1,0 +1,198 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import RelatedTools from '../../components/sections/RelatedTools.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { getToolById } from '../../data/tools';
+
+const relatedTools = [
+  getToolById('text-formatter')!,
+  getToolById('post-preview')!,
+  getToolById('character-counter')!,
+];
+
+const faq = [
+  {
+    question: 'Can you use bold text in LinkedIn posts?',
+    answer: 'LinkedIn does not support native bold formatting. However, you can use Unicode mathematical bold characters that visually appear as bold. Our LinkedIn Text Formatter converts your text to these Unicode styles automatically.',
+  },
+  {
+    question: 'How do you format a LinkedIn post for maximum engagement?',
+    answer: 'Structure your post with a strong hook (first 1-2 lines), use white space and line breaks for readability, include a call to action, and optionally use Unicode formatting for emphasis. Preview the post before publishing.',
+  },
+  {
+    question: 'Should LinkedIn posts use bullet points?',
+    answer: 'Bullet points and structured lists improve scannability, especially for posts with multiple key points. Use emoji bullets (▶️ ✅ 📌) for visual interest, or plain hyphens for a cleaner look.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'LinkedIn Post Formatting Guide',
+  description: 'Complete guide to formatting LinkedIn posts for maximum readability and engagement.',
+  url: 'https://linkedintoolkit.com/guides/linkedin-post-formatting/',
+  author: { '@type': 'Organization', name: 'LinkedIn Toolkit' },
+  publisher: { '@type': 'Organization', name: 'LinkedIn Toolkit' },
+  datePublished: '2024-01-15',
+  dateModified: '2024-06-01',
+};
+---
+
+<BaseLayout
+  title="LinkedIn Post Formatting Guide — How to Format LinkedIn Posts | LinkedIn Toolkit"
+  description="Complete guide to formatting LinkedIn posts for maximum readability and engagement. Includes bold/italic text, structure tips, character limits, and best practices."
+  ogType="article"
+  schema={articleSchema}
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Guides', url: '/guides/' },
+    { name: 'LinkedIn Post Formatting', url: '/guides/linkedin-post-formatting/' },
+  ]}
+>
+  <!-- Breadcrumb -->
+  <nav class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-label="Breadcrumb">
+    <div class="wrap-page py-3">
+      <ol class="flex items-center gap-2 list-none m-0 p-0 text-caption text-[var(--color-mute)]">
+        <li><a href="/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline transition-colors">Home</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/guides/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline transition-colors">Guides</a></li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-[var(--color-ink)] font-medium">Post Formatting</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-12 pb-10">
+    <div class="wrap-page">
+      <div class="max-w-2xl">
+        <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Guide</span>
+        <h1 class="text-display-lg text-[var(--color-ink)] mb-4">
+          LinkedIn Post Formatting Guide.
+        </h1>
+        <p class="text-body-lg text-[var(--color-body)]">
+          How to format LinkedIn posts for maximum readability, engagement, and reach.
+        </p>
+        <p class="text-caption text-[var(--color-mute)] mt-4">Updated June 2024</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article content -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-narrow py-16">
+      <article class="prose-content">
+
+        <p class="text-body-lg text-[var(--color-body)] mb-8">
+          Formatting is the difference between a post that gets read and one that gets scrolled past.
+          LinkedIn's plain-text composer doesn't make it easy, but with the right techniques, you can
+          make your posts visually compelling and easy to read.
+        </p>
+
+        <h2 class="text-display-md text-[var(--color-ink)] mt-12 mb-4">The LinkedIn post structure</h2>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          Every high-performing LinkedIn post follows a structure. The exact format varies, but the
+          best posts share common elements:
+        </p>
+        <ul class="list-none p-0 m-0 mb-8 flex flex-col gap-3">
+          {[
+            ['Hook (lines 1–2)', 'The content visible before "see more" — your most compelling line'],
+            ['Body', 'The main content — your story, insight, or list'],
+            ['Conclusion', 'A summary, key takeaway, or reflection'],
+            ['Call to action', 'A question, invitation to comment, or next step'],
+            ['Hashtags', '3-5 relevant hashtags at the end'],
+          ].map(([title, desc]) => (
+            <li class="flex items-start gap-3 text-body-sm text-[var(--color-body)]">
+              <span class="text-[var(--color-mute)] mt-0.5">—</span>
+              <span><strong class="text-[var(--color-ink)] font-medium">{title}:</strong> {desc}</span>
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="text-display-md text-[var(--color-ink)] mt-12 mb-4">How to add bold text to LinkedIn posts</h2>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          LinkedIn doesn't support native Markdown or HTML formatting. Typing <code class="text-code bg-[var(--color-canvas-soft-2)] px-1.5 py-0.5 rounded text-xs">**bold**</code> in LinkedIn just shows asterisks.
+        </p>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          The solution is Unicode text formatting. Unicode includes mathematical alphanumeric symbols that visually resemble bold, italic, and other styles. These are real characters — not markup — so they display correctly everywhere LinkedIn is available.
+        </p>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          Use the <a href="/tools/linkedin-text-formatter/" class="text-[var(--color-link)] underline underline-offset-2 hover:text-[var(--color-link-deep)]">LinkedIn Text Formatter</a> to convert your text to bold, italic, bold-italic, strikethrough, and more — then copy and paste into LinkedIn.
+        </p>
+
+        <h2 class="text-display-md text-[var(--color-ink)] mt-12 mb-4">White space and line breaks</h2>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          White space is one of the most powerful formatting tools you have on LinkedIn. Dense walls of text get skipped. Posts with generous line spacing and short paragraphs get read.
+        </p>
+        <ul class="list-none p-0 m-0 mb-8 flex flex-col gap-3">
+          {[
+            'Keep paragraphs to 1-3 sentences for mobile readability',
+            'Add a blank line between paragraphs',
+            'Use numbered or emoji bullet lists for multiple points',
+            'Don\'t indent — LinkedIn renders indents inconsistently',
+          ].map((tip) => (
+            <li class="flex items-start gap-3 text-body-sm text-[var(--color-body)]">
+              <span class="text-[var(--color-mute)] mt-0.5">—</span>
+              {tip}
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="text-display-md text-[var(--color-ink)] mt-12 mb-4">The hook: your first two lines</h2>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          LinkedIn shows approximately 210 characters on desktop and 140 on mobile before truncating with "see more". The content visible before that cutoff is your hook.
+        </p>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          Your hook needs to stop the scroll. It should create curiosity, make a bold claim, or immediately communicate value. The rest of your post can only be read if you nail the hook.
+        </p>
+
+        <div class="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-5 mb-8">
+          <p class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3">Hook examples</p>
+          <div class="flex flex-col gap-3">
+            {[
+              'I got rejected by 47 companies before landing my dream job.',
+              'Most LinkedIn profiles make the same 3 mistakes. Here\'s how to fix them.',
+              '10 years ago, I had no network. Here\'s exactly how I built one.',
+            ].map((example) => (
+              <p class="text-body-sm text-[var(--color-ink)] italic border-l-2 border-[var(--color-hairline)] pl-4">"{example}"</p>
+            ))}
+          </div>
+        </div>
+
+        <h2 class="text-display-md text-[var(--color-ink)] mt-12 mb-4">LinkedIn post length</h2>
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          LinkedIn posts can be up to 3,000 characters. Research suggests:
+        </p>
+        <ul class="list-none p-0 m-0 mb-8 flex flex-col gap-3">
+          {[
+            ['Short posts (under 500 chars)', 'Work for punchy one-liners, quotes, and quick observations'],
+            ['Medium posts (500-1,500 chars)', 'Work for tips, lessons, and short stories'],
+            ['Long posts (1,500-3,000 chars)', 'Work for deep stories, detailed how-tos, and educational content'],
+          ].map(([range, use]) => (
+            <li class="flex items-start gap-3 text-body-sm text-[var(--color-body)]">
+              <span class="text-[var(--color-mute)] mt-0.5">—</span>
+              <span><strong class="text-[var(--color-ink)] font-medium">{range}:</strong> {use}</span>
+            </li>
+          ))}
+        </ul>
+
+        <p class="text-body-md text-[var(--color-body)] mb-4 leading-7">
+          Track your post length with the <a href="/tools/linkedin-character-counter/" class="text-[var(--color-link)] underline underline-offset-2 hover:text-[var(--color-link-deep)]">LinkedIn Character Counter</a>, and preview how it looks before publishing with the <a href="/tools/linkedin-post-preview/" class="text-[var(--color-link)] underline underline-offset-2 hover:text-[var(--color-link-deep)]">Post Preview tool</a>.
+        </p>
+
+      </article>
+    </div>
+  </div>
+
+  <FAQ items={faq} title="Frequently asked questions." />
+
+  <RelatedTools tools={relatedTools} title="Tools for this guide." />
+
+  <CTA
+    heading="Ready to format your LinkedIn posts?"
+    body="Use the LinkedIn Text Formatter to add bold, italic, and more styles to your posts."
+    primaryCTA={{ label: 'Open Text Formatter', href: '/tools/linkedin-text-formatter/' }}
+    secondaryCTA={{ label: 'Browse all tools', href: '/tools/' }}
+  />
+</BaseLayout>

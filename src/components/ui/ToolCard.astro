@@ -1,0 +1,70 @@
+---
+import type { Tool } from '../../data/tools';
+
+export interface Props {
+  tool: Tool;
+  size?: 'default' | 'large';
+}
+
+const { tool, size = 'default' } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  bold: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 4h6a3 3 0 010 6H5V4zm0 6h7a3 3 0 010 6H5v-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+  eye: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 10s3-6 8-6 8 6 8 6-3 6-8 6-8-6-8-6z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  hash: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4l-2 12M15 4l-2 12M4 8h13M3 13h13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  chart: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="12" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8" width="3" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="14" y="4" width="3" height="13" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>`,
+  tag: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 3h6.5l7.5 7.5-6.5 6.5L3 9.5V3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/></svg>`,
+  smile: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 11.5s.75 2 3 2 3-2 3-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12.5" cy="8.5" r="1" fill="currentColor"/></svg>`,
+  message: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 4h14a1 1 0 011 1v8a1 1 0 01-1 1H6l-4 3V5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+  user: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 17c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+};
+---
+
+<a
+  href={tool.href}
+  class:list={[
+    'group flex flex-col no-underline rounded-[var(--radius-md)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] transition-all duration-150 hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-lg)]',
+    size === 'large' ? 'p-8' : 'p-6',
+  ]}
+  aria-label={`${tool.name} — ${tool.shortDescription}`}
+>
+  <!-- Icon -->
+  <div class="flex items-center justify-between mb-4">
+    <span
+      class="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]"
+      aria-hidden="true"
+      set:html={iconMap[tool.icon] ?? iconMap.bold}
+    />
+    <svg
+      class="w-4 h-4 text-[var(--color-mute)] group-hover:text-[var(--color-ink)] transition-colors"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Content -->
+  <h3 class:list={[
+    'text-[var(--color-ink)] font-semibold mb-2',
+    size === 'large' ? 'text-display-sm' : 'text-body-md-strong',
+  ]}>
+    {tool.name}
+  </h3>
+  <p class="text-body-sm text-[var(--color-body)] leading-5 flex-1">
+    {tool.shortDescription}
+  </p>
+
+  <!-- Tags -->
+  <div class="flex flex-wrap gap-1.5 mt-4" role="list" aria-label="Tool categories">
+    {tool.tags.slice(0, 3).map((tag) => (
+      <span
+        class="text-caption text-[var(--color-mute)] bg-[var(--color-canvas-soft)] px-2 py-0.5 rounded-full"
+        role="listitem"
+      >
+        {tag}
+      </span>
+    ))}
+  </div>
+</a>

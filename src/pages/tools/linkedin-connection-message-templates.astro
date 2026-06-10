@@ -1,0 +1,77 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import ConnectionMessageTool from '../../components/tools/ConnectionMessageTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('connection-message-templates')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'How long can a LinkedIn connection message be?',
+    answer: 'LinkedIn connection request messages are limited to 300 characters. This is a very short format — be specific, personal, and clear about why you\'re connecting.',
+  },
+  {
+    question: 'Should I always send a personalized connection message?',
+    answer: 'Personalized messages significantly increase your acceptance rate. A generic "I\'d like to add you to my professional network" is the default — a personalized message stands out and shows genuine interest.',
+  },
+  {
+    question: 'What is the best LinkedIn connection request message?',
+    answer: 'The best connection messages are specific (mention something about their work), short (respect their time), and have a clear reason for connecting. Avoid asking for favors in the initial request.',
+  },
+  {
+    question: 'Can I send a connection message to anyone on LinkedIn?',
+    answer: 'You can send connection messages to people you want to connect with. If they are outside your network (not a 2nd-degree connection), you may need LinkedIn Premium or InMail to send them a message first.',
+  },
+  {
+    question: 'Should I send a follow-up message after connecting on LinkedIn?',
+    answer: 'Yes. After a connection is accepted, a brief follow-up message that furthers the conversation is a best practice. Keep it light — thank them for connecting and continue the conversation naturally.',
+  },
+];
+
+const seoContent = {
+  heading: 'How to write LinkedIn connection messages that get accepted.',
+  content: `
+<p>Your connection request message is often the first impression you make on someone's LinkedIn. A generic, default message rarely gets accepted. A personalized, specific message shows you've done your research and have a genuine reason to connect.</p>
+
+<h3>LinkedIn connection message formula</h3>
+<ul>
+  <li><strong>Personalization:</strong> Reference something specific about their work, a post, or a shared experience</li>
+  <li><strong>Context:</strong> Briefly explain who you are and why you're relevant</li>
+  <li><strong>Reason:</strong> State clearly why you want to connect</li>
+  <li><strong>Low pressure:</strong> Don't ask for anything in the initial request</li>
+</ul>
+
+<h3>Connection message templates by scenario</h3>
+<p>Different situations call for different approaches. Use our templates as starting points:</p>
+<ul>
+  <li><strong>Networking:</strong> Connect with people in your industry, after events, or through shared content</li>
+  <li><strong>Recruiter outreach:</strong> Reach out to candidates with relevant backgrounds</li>
+  <li><strong>Job seeking:</strong> Connect with employees at target companies or hiring managers</li>
+  <li><strong>Follow-up:</strong> Reconnect after interviews or meetings</li>
+</ul>
+
+<h3>Common LinkedIn connection message mistakes</h3>
+<ul>
+  <li>Sending the default "I'd like to add you to my professional network" message</li>
+  <li>Immediately pitching a product or service after connecting</li>
+  <li>Writing messages that are entirely about yourself</li>
+  <li>Being too formal or too casual for the context</li>
+  <li>Asking for a job or referral in the very first message</li>
+</ul>
+
+<p>See our full collection of <a href="/templates/linkedin-connection-message-templates/">LinkedIn Connection Message Templates</a> for more scenarios and examples.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Connection Message Templates — Networking, Recruiters, Job Search | LinkedIn Toolkit"
+  description="Copy-ready LinkedIn connection message templates for networking, recruiter outreach, job applications, and follow-ups. Customizable and proven. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <ConnectionMessageTool client:load />
+</ToolLayout>

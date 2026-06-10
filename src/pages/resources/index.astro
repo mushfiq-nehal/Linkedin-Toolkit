@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { tools } from '../../data/tools';
+import { guides } from '../../data/guides';
+import { templates } from '../../data/templates';
+---
+
+<BaseLayout
+  title="LinkedIn Resources — Guides, Tools & Templates | LinkedIn Toolkit"
+  description="Curated LinkedIn resources: free tools, in-depth guides, and copy-ready templates for creators, professionals, and job seekers."
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Resources', url: '/resources/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Resources</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Everything you need for LinkedIn.
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        Free tools, in-depth guides, and copy-ready templates — all in one place.
+      </p>
+    </div>
+  </div>
+
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      <div class="flex flex-col gap-16">
+
+        <!-- Tools -->
+        <section aria-labelledby="resources-tools">
+          <div class="flex items-center justify-between mb-6">
+            <h2 id="resources-tools" class="text-display-sm text-[var(--color-ink)]">Free tools</h2>
+            <a href="/tools/" class="text-body-sm text-[var(--color-link)] no-underline hover:text-[var(--color-link-deep)] transition-colors">
+              View all →
+            </a>
+          </div>
+          <ul class="list-none p-0 m-0 flex flex-col gap-2">
+            {tools.map((tool) => (
+              <li>
+                <a
+                  href={tool.href}
+                  class="flex items-center justify-between gap-4 p-4 rounded-[var(--radius-sm)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] no-underline group transition-colors"
+                >
+                  <div>
+                    <span class="text-body-sm-strong text-[var(--color-ink)] block">{tool.name}</span>
+                    <span class="text-caption text-[var(--color-mute)]">{tool.shortDescription}</span>
+                  </div>
+                  <svg class="w-4 h-4 text-[var(--color-mute)] group-hover:text-[var(--color-ink)] transition-colors shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <!-- Guides -->
+        <section aria-labelledby="resources-guides">
+          <div class="flex items-center justify-between mb-6">
+            <h2 id="resources-guides" class="text-display-sm text-[var(--color-ink)]">Guides</h2>
+            <a href="/guides/" class="text-body-sm text-[var(--color-link)] no-underline hover:text-[var(--color-link-deep)] transition-colors">
+              View all →
+            </a>
+          </div>
+          <ul class="list-none p-0 m-0 flex flex-col gap-2">
+            {guides.map((guide) => (
+              <li>
+                <a
+                  href={guide.href}
+                  class="flex items-center justify-between gap-4 p-4 rounded-[var(--radius-sm)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] no-underline group transition-colors"
+                >
+                  <div>
+                    <span class="text-body-sm-strong text-[var(--color-ink)] block">{guide.title}</span>
+                    <span class="text-caption text-[var(--color-mute)]">{guide.excerpt}</span>
+                  </div>
+                  <svg class="w-4 h-4 text-[var(--color-mute)] group-hover:text-[var(--color-ink)] transition-colors shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <!-- Templates -->
+        <section aria-labelledby="resources-templates">
+          <div class="flex items-center justify-between mb-6">
+            <h2 id="resources-templates" class="text-display-sm text-[var(--color-ink)]">Templates</h2>
+            <a href="/templates/" class="text-body-sm text-[var(--color-link)] no-underline hover:text-[var(--color-link-deep)] transition-colors">
+              View all →
+            </a>
+          </div>
+          <ul class="list-none p-0 m-0 flex flex-col gap-2">
+            {templates.map((template) => (
+              <li>
+                <a
+                  href={template.href}
+                  class="flex items-center justify-between gap-4 p-4 rounded-[var(--radius-sm)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] no-underline group transition-colors"
+                >
+                  <div>
+                    <span class="text-body-sm-strong text-[var(--color-ink)] block">{template.title}</span>
+                    <span class="text-caption text-[var(--color-mute)]">{template.excerpt}</span>
+                  </div>
+                  <svg class="w-4 h-4 text-[var(--color-mute)] group-hover:text-[var(--color-ink)] transition-colors shrink-0" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Choose a tool',
+    description: 'Browse our collection of free LinkedIn tools. No account needed.',
+  },
+  {
+    number: '02',
+    title: 'Use it immediately',
+    description: 'Every tool works right away — paste your text, fill in your details, or select a template.',
+  },
+  {
+    number: '03',
+    title: 'Copy and use',
+    description: 'Copy your formatted text, preview, or template directly to LinkedIn.',
+  },
+];
+---
+
+<section class="section-padding bg-[var(--color-ink)]" aria-labelledby="how-it-works-heading">
+  <div class="wrap-page">
+    <div class="max-w-2xl mb-14">
+      <span class="text-caption-mono text-[rgba(255,255,255,0.5)] uppercase tracking-wider mb-3 block">How it works</span>
+      <h2 id="how-it-works-heading" class="text-display-lg text-white mb-4">
+        Start using LinkedIn Toolkit in seconds.
+      </h2>
+      <p class="text-body-lg text-[rgba(255,255,255,0.65)]">
+        No onboarding, no tutorials. Just tools that work.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {steps.map((step, i) => (
+        <div class="relative">
+          {i < steps.length - 1 && (
+            <div class="hidden md:block absolute top-5 left-[calc(100%_-_16px)] w-8 h-px bg-[rgba(255,255,255,0.15)]" aria-hidden="true"></div>
+          )}
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-caption-mono text-[rgba(255,255,255,0.4)] font-mono">{step.number}</span>
+            <div class="h-px flex-1 bg-[rgba(255,255,255,0.1)]" aria-hidden="true"></div>
+          </div>
+          <h3 class="text-display-sm text-white mb-3">{step.title}</h3>
+          <p class="text-body-sm text-[rgba(255,255,255,0.6)] leading-6">{step.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-14 pt-14 border-t border-[rgba(255,255,255,0.1)]">
+      <a href="/tools/" class="btn-secondary inline-flex">
+        Browse all tools
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="ml-1">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

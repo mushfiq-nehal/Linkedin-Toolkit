@@ -1,0 +1,62 @@
+---
+const benefits = [
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10l5 5 9-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    title: 'No account required',
+    description: 'Every tool works instantly. No signup, no email, no friction.',
+  },
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v14M3 10h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    title: 'Always free',
+    description: 'Core tools will always be free. No credit card, no trial period.',
+  },
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    title: 'Instant results',
+    description: 'Get value within seconds. Land on a tool page and start immediately.',
+  },
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10h6M7 7h6M7 13h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    title: 'Built for professionals',
+    description: 'Designed for creators, job seekers, recruiters, and LinkedIn power users.',
+  },
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5l2.39 4.84 5.34.78-3.87 3.77.91 5.32L10 14.77l-4.77 2.44.91-5.32L2.27 8.12l5.34-.78L10 2.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+    title: 'High-quality results',
+    description: 'Tools built with LinkedIn best practices and real professional workflows.',
+  },
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V7l7-4 7 4v10" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="7.5" y="11" width="5" height="6" rx="0.5" stroke="currentColor" stroke-width="1.5"/></svg>`,
+    title: 'Mobile-friendly',
+    description: 'Every tool works perfectly on desktop and mobile.',
+  },
+];
+---
+
+<section class="section-padding bg-[var(--color-canvas)] border-t border-[var(--color-hairline)]" aria-labelledby="benefits-heading">
+  <div class="wrap-page">
+    <div class="max-w-2xl mb-12">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Why use LinkedIn Toolkit</span>
+      <h2 id="benefits-heading" class="text-display-lg text-[var(--color-ink)] mb-4">
+        Built for immediate value.
+      </h2>
+      <p class="text-body-lg text-[var(--color-body)]">
+        A utility-first toolkit designed to get out of your way.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {benefits.map((b) => (
+        <div class="flex flex-col gap-3">
+          <span
+            class="flex h-9 w-9 items-center justify-center rounded-[var(--radius-md)] bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]"
+            aria-hidden="true"
+            set:html={b.icon}
+          />
+          <h3 class="text-body-md-strong text-[var(--color-ink)]">{b.title}</h3>
+          <p class="text-body-sm text-[var(--color-body)] leading-5">{b.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

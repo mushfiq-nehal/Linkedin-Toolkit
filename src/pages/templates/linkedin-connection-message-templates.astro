@@ -1,0 +1,221 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RelatedTools from '../../components/sections/RelatedTools.astro';
+import FAQ from '../../components/sections/FAQ.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { getToolById } from '../../data/tools';
+
+const relatedTools = [
+  getToolById('connection-message-templates')!,
+  getToolById('text-formatter')!,
+];
+
+const faq = [
+  {
+    question: 'How long should a LinkedIn connection message be?',
+    answer: 'LinkedIn limits connection messages to 300 characters. Keep it concise: one specific reason for connecting and a brief note about yourself. Don\'t try to cram too much in.',
+  },
+  {
+    question: 'What is a good acceptance rate for LinkedIn connection requests?',
+    answer: 'A personalized connection message can achieve 30-50% acceptance rates, compared to about 10-15% for generic requests. Personalization is the single biggest factor in acceptance rate.',
+  },
+];
+
+const templateGroups = [
+  {
+    category: 'Networking',
+    templates: [
+      {
+        title: 'General professional networking',
+        template: `Hi [Name],
+
+I came across your work at [Company] and was really impressed by [specific aspect]. I'm also in [field] and would love to connect.
+
+Looking forward to it!`,
+      },
+      {
+        title: 'After seeing their post or content',
+        template: `Hi [Name],
+
+Your recent post on [Topic] was exactly what I needed to read today — particularly the point about [Specific Insight].
+
+Would love to connect and follow your content.`,
+      },
+      {
+        title: 'Same industry',
+        template: `Hi [Name],
+
+I see we're both working in [Industry]. Always trying to expand my network with people doing interesting work in this space.
+
+Would love to connect!`,
+      },
+    ],
+  },
+  {
+    category: 'Job Seeking',
+    templates: [
+      {
+        title: 'Reaching out to an employee at a target company',
+        template: `Hi [Name],
+
+I'm very interested in [Company] and came across your profile. I'm exploring opportunities in [Role/Department] and would love to hear about your experience on the team.
+
+Would you be open to a 15-minute chat?`,
+      },
+      {
+        title: 'After applying for a role',
+        template: `Hi [Name],
+
+I recently applied for the [Position] role and wanted to reach out directly. I believe my background in [Relevant Skill] aligns well with what you're looking for.
+
+Would love to connect!`,
+      },
+    ],
+  },
+  {
+    category: 'Recruiter Outreach',
+    templates: [
+      {
+        title: 'Reaching out to a candidate',
+        template: `Hi [Name],
+
+I'm hiring for a [Role] position at [Company] and your background in [Specific Skill] caught my attention.
+
+Would you be open to hearing more details? No pressure at all.`,
+      },
+      {
+        title: 'Passive candidate outreach',
+        template: `Hi [Name],
+
+I know you may not be actively looking, but I have a [Role] opportunity at [Company] that I think you'd find compelling.
+
+Would you be open to a quick call?`,
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="LinkedIn Connection Message Templates — 30+ Copy-Ready Messages | LinkedIn Toolkit"
+  description="30+ proven LinkedIn connection message templates for networking, job seeking, recruiter outreach, and follow-ups. Copy, customize, and send. Free."
+  ogType="article"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Templates', url: '/templates/' },
+    { name: 'Connection Message Templates', url: '/templates/linkedin-connection-message-templates/' },
+  ]}
+>
+  <!-- Breadcrumb -->
+  <nav class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-label="Breadcrumb">
+    <div class="wrap-page py-3">
+      <ol class="flex items-center gap-2 list-none m-0 p-0 text-caption text-[var(--color-mute)]">
+        <li><a href="/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline">Home</a></li>
+        <li>/</li>
+        <li><a href="/templates/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline">Templates</a></li>
+        <li>/</li>
+        <li aria-current="page" class="text-[var(--color-ink)] font-medium">Connection Messages</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-12 pb-10">
+    <div class="wrap-page">
+      <div class="max-w-2xl">
+        <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Templates</span>
+        <h1 class="text-display-lg text-[var(--color-ink)] mb-4">
+          LinkedIn connection message templates.
+        </h1>
+        <p class="text-body-lg text-[var(--color-body)]">
+          Copy-ready connection messages for networking, job seeking, recruiter outreach, and follow-ups. Customize with your details.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      <div class="max-w-2xl flex flex-col gap-14">
+        {templateGroups.map((group) => (
+          <section aria-labelledby={`group-${group.category.toLowerCase()}`}>
+            <h2
+              id={`group-${group.category.toLowerCase()}`}
+              class="text-display-sm text-[var(--color-ink)] mb-6 pb-3 border-b border-[var(--color-hairline)]"
+            >
+              {group.category}
+            </h2>
+            <div class="flex flex-col gap-5">
+              {group.templates.map((t) => (
+                <div class="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] overflow-hidden">
+                  <div class="flex items-center justify-between px-4 py-3 border-b border-[var(--color-hairline)] bg-[var(--color-canvas-soft)]">
+                    <span class="text-body-sm-strong text-[var(--color-ink)]">{t.title}</span>
+                    <button
+                      class="copy-btn text-caption text-[var(--color-mute)] hover:text-[var(--color-ink)] transition-colors"
+                      data-text={t.template}
+                      aria-label={`Copy template: ${t.title}`}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <pre class="p-4 text-body-sm text-[var(--color-body)] whitespace-pre-wrap font-[var(--font-sans)] leading-relaxed m-0">{t.template}</pre>
+                  <div class="px-4 py-2 border-t border-[var(--color-hairline)] flex items-center justify-between">
+                    <span class="text-caption text-[var(--color-mute)]">{t.template.length} characters</span>
+                    {t.template.length > 300 && (
+                      <span class="text-caption text-[var(--color-warning-deep)]">
+                        Over 300 — shorten before sending as a connection request
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+
+        <!-- Use the interactive tool -->
+        <div class="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-6">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-3">Use the interactive tool.</h2>
+          <p class="text-body-sm text-[var(--color-body)] mb-5">
+            The interactive Connection Message tool lets you pick a template, customize it with your details, and copy in one click.
+          </p>
+          <a href="/tools/linkedin-connection-message-templates/" class="btn-primary inline-flex" style="border-radius: var(--radius-pill);">
+            Open Connection Message Tool
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <FAQ items={faq} title="Frequently asked questions." />
+
+  <RelatedTools tools={relatedTools} title="Related tools." />
+
+  <CTA
+    heading="Ready to write better connection messages?"
+    body="Use the interactive tool to customize templates with your specific details."
+    primaryCTA={{ label: 'Open Connection Message Tool', href: '/tools/linkedin-connection-message-templates/' }}
+  />
+</BaseLayout>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = (btn as HTMLElement).dataset.text ?? '';
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      }
+      const original = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.textContent = original; }, 2000);
+    });
+  });
+</script>

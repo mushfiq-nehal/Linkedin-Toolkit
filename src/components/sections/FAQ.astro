@@ -1,0 +1,61 @@
+---
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  items: FAQItem[];
+  title?: string;
+}
+
+const { items, title = 'Frequently asked questions.' } = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<section class="section-padding border-t border-[var(--color-hairline)]" aria-labelledby="faq-heading">
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="wrap-page">
+    <div class="max-w-3xl">
+      <h2 id="faq-heading" class="text-display-lg text-[var(--color-ink)] mb-12">
+        {title}
+      </h2>
+
+      <dl class="flex flex-col gap-0">
+        {items.map((item, i) => (
+          <div class:list={['border-t border-[var(--color-hairline)]', i === items.length - 1 ? 'border-b' : '']}>
+            <details class="group py-5">
+              <summary class="flex items-center justify-between gap-6 cursor-pointer list-none text-body-md-strong text-[var(--color-ink)] select-none">
+                <dt>{item.question}</dt>
+                <span
+                  class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full border border-[var(--color-hairline)] text-[var(--color-mute)] group-open:rotate-45 transition-transform duration-200"
+                  aria-hidden="true"
+                >
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </span>
+              </summary>
+              <dd class="text-body-sm text-[var(--color-body)] mt-3 leading-6 max-w-2xl">
+                {item.answer}
+              </dd>
+            </details>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,78 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import HeadlineAnalyzerTool from '../../components/tools/HeadlineAnalyzerTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('headline-analyzer')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'How is the LinkedIn headline score calculated?',
+    answer: 'The score is calculated across four dimensions: Clarity (0-25), Length (0-25), Keywords (0-25), and Specificity (0-25). The total is out of 100. The analyzer checks for role clarity, optimal character count, professional keywords, and structural specificity.',
+  },
+  {
+    question: 'What makes a great LinkedIn headline?',
+    answer: 'The best LinkedIn headlines include a clear job title or role, relevant industry keywords that recruiters search for, a specific value proposition or specialty, and often use separators (| or ·) to organize multiple pieces of information.',
+  },
+  {
+    question: 'How long should a LinkedIn headline be?',
+    answer: 'LinkedIn headlines allow up to 220 characters, but search results typically show around 120 characters. The sweet spot is between 100 and 160 characters — enough to show your role, skills, and value without being cut off in search.',
+  },
+  {
+    question: 'Should I include keywords in my LinkedIn headline?',
+    answer: 'Yes. LinkedIn\'s search algorithm uses headline content to match candidates with searches. Including your specific job title, key skills, and industry terms significantly increases your discoverability.',
+  },
+  {
+    question: 'Should I use my job title in my LinkedIn headline?',
+    answer: 'Yes. Your job title is often the first thing recruiters and connections search for. Include it clearly at the beginning of your headline, then add specializations or differentiators after a separator.',
+  },
+];
+
+const seoContent = {
+  heading: 'How to write an effective LinkedIn headline.',
+  content: `
+<p>Your LinkedIn headline is one of the most important parts of your profile. It appears in search results, connection requests, post notifications, and anywhere your name shows up across LinkedIn. A strong headline gets you found and clicked on — a weak one gets you ignored.</p>
+
+<h3>The anatomy of a high-performing LinkedIn headline</h3>
+<ul>
+  <li><strong>Clear role:</strong> Start with your actual job title or desired title</li>
+  <li><strong>Specialization:</strong> Add your core area of expertise or niche</li>
+  <li><strong>Keywords:</strong> Include skills and tools recruiters search for</li>
+  <li><strong>Value proposition:</strong> What you do for the people you work with</li>
+  <li><strong>Structure:</strong> Use | or · to separate sections for scannability</li>
+</ul>
+
+<h3>LinkedIn headline examples by role</h3>
+<ul>
+  <li>Software Engineer | React & TypeScript | Building scalable products @ [Company]</li>
+  <li>Senior Product Manager | B2B SaaS | 0→1 Product Strategy</li>
+  <li>Marketing Director | Content-Led Growth | Previously HubSpot & Salesforce</li>
+  <li>Technical Recruiter | Engineering & Product Hiring | 500+ placements</li>
+  <li>Data Scientist | ML & NLP | Turning data into business decisions</li>
+</ul>
+
+<h3>Common LinkedIn headline mistakes</h3>
+<ul>
+  <li>Using generic titles like "Experienced Professional" or "Results-Driven Leader"</li>
+  <li>Leaving it as the default "Job Title at Company" format</li>
+  <li>All caps headlines (reduces readability)</li>
+  <li>Vague terms like "guru", "ninja", or "thought leader"</li>
+  <li>Not including searchable keywords for your field</li>
+</ul>
+
+<p>For real-world examples, see our <a href="/guides/linkedin-headline-examples/">LinkedIn Headline Examples</a> guide. Use the <a href="/tools/linkedin-character-counter/">Character Counter</a> to stay within the 220-character limit.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Headline Analyzer — Score and Improve Your Headline | LinkedIn Toolkit"
+  description="Analyze and score your LinkedIn headline for clarity, length, keywords, and specificity. Get actionable recommendations to improve your headline and get found by recruiters."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <HeadlineAnalyzerTool client:load />
+</ToolLayout>

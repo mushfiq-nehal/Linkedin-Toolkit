@@ -1,0 +1,126 @@
+---
+const navLinks = [
+  { label: 'Tools', href: '/tools/' },
+  { label: 'Guides', href: '/guides/' },
+  { label: 'Templates', href: '/templates/' },
+  { label: 'Resources', href: '/resources/' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  class="sticky top-0 z-50 w-full border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]/95 backdrop-blur-sm"
+  role="banner"
+>
+  <nav
+    class="wrap-page flex h-16 items-center justify-between gap-6"
+    aria-label="Main navigation"
+  >
+    <!-- Logo -->
+    <a
+      href="/"
+      class="flex items-center gap-2 shrink-0 text-[var(--color-ink)] no-underline"
+      aria-label="LinkedIn Toolkit — Home"
+    >
+      <span class="flex h-7 w-7 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-ink)]" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="1" width="3.5" height="3.5" rx="0.5" fill="white"/>
+          <rect x="1" y="6" width="3.5" height="7" rx="0.5" fill="white"/>
+          <rect x="6" y="1" width="7" height="3.5" rx="0.5" fill="white" opacity="0.5"/>
+          <path d="M6 6.5C6 6.22386 6.22386 6 6.5 6H9C10.6569 6 12 7.34315 12 9C12 10.6569 10.6569 12 9 12H6.5C6.22386 12 6 11.7761 6 11.5V6.5Z" fill="white"/>
+        </svg>
+      </span>
+      <span class="text-body-sm-strong text-[var(--color-ink)] hidden sm:block">LinkedIn Toolkit</span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <ul class="hidden md:flex items-center gap-1 list-none m-0 p-0" role="list">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              'text-body-sm px-3 py-1.5 rounded-full transition-colors no-underline',
+              currentPath.startsWith(link.href)
+                ? 'text-[var(--color-ink)] bg-[var(--color-canvas-soft-2)]'
+                : 'text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)]',
+            ]}
+            aria-current={currentPath.startsWith(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Right CTA cluster -->
+    <div class="flex items-center gap-2 shrink-0">
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden flex items-center justify-center w-8 h-8 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)] transition-colors"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <rect y="3" width="16" height="1.5" rx="0.75" fill="currentColor"/>
+          <rect y="7.25" width="16" height="1.5" rx="0.75" fill="currentColor"/>
+          <rect y="11.5" width="16" height="1.5" rx="0.75" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <a
+        href="/tools/"
+        class="btn-primary-sm hidden sm:inline-flex"
+        style="border-radius: var(--radius-sm);"
+      >
+        All Tools
+      </a>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-[var(--color-hairline)] bg-[var(--color-canvas)]"
+    role="navigation"
+    aria-label="Mobile navigation"
+  >
+    <ul class="wrap-page py-4 flex flex-col gap-1 list-none m-0 p-0 px-6" role="list">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              'flex items-center text-body-sm py-2 px-3 rounded-[var(--radius-sm)] no-underline transition-colors',
+              currentPath.startsWith(link.href)
+                ? 'text-[var(--color-ink)] bg-[var(--color-canvas-soft-2)] font-medium'
+                : 'text-[var(--color-body)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft)]',
+            ]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li class="pt-2 border-t border-[var(--color-hairline)] mt-2">
+        <a href="/tools/" class="btn-primary w-full justify-center" style="border-radius: var(--radius-sm);">
+          Browse All Tools
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.classList.contains('hidden') === false;
+    menu?.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    btn.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+  });
+</script>

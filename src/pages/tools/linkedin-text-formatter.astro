@@ -1,0 +1,72 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import TextFormatterTool from '../../components/tools/TextFormatterTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('text-formatter')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'Why does LinkedIn not support bold or italic text natively?',
+    answer: 'LinkedIn\'s composer supports plain text only. It does not render HTML or Markdown formatting. However, Unicode mathematical alphanumeric symbols render visually as bold, italic, and other styles across all platforms where LinkedIn is displayed.',
+  },
+  {
+    question: 'Will formatted text work on all devices?',
+    answer: 'Yes. Unicode text formatting uses actual Unicode characters rather than markup, so the characters render correctly on iOS, Android, Windows, and macOS — anywhere LinkedIn is available.',
+  },
+  {
+    question: 'Does LinkedIn penalize Unicode formatted posts?',
+    answer: 'There is no evidence that LinkedIn\'s algorithm penalizes Unicode-formatted text. Many high-performing posts use bold and italic Unicode styling for emphasis and structure.',
+  },
+  {
+    question: 'Can I use the formatter for LinkedIn headlines and About sections?',
+    answer: 'Yes. The formatter works for any LinkedIn text field including posts, headlines, About sections, job descriptions, and comments.',
+  },
+  {
+    question: 'Why does the formatter not work for some characters?',
+    answer: 'Unicode math symbols only map to standard A–Z, a–z, and 0–9. Special characters, punctuation, and accented letters remain as standard Unicode characters without a corresponding styled variant.',
+  },
+];
+
+const seoContent = {
+  heading: 'How to format text on LinkedIn.',
+  content: `
+<p>LinkedIn does not support native text formatting like HTML or Markdown. When you write <strong>**bold text**</strong> or <em>*italic text*</em> in a LinkedIn post, it appears as literal asterisks — not formatting. This is a common frustration for LinkedIn creators.</p>
+
+<h3>Unicode text formatting for LinkedIn</h3>
+<p>The solution is Unicode mathematical alphanumeric symbols — a set of characters in the Unicode standard that visually resemble bold, italic, and other text styles. These are real characters, not markup, so they display correctly everywhere LinkedIn is available.</p>
+
+<h3>Why format your LinkedIn posts?</h3>
+<ul>
+  <li>Bold text draws attention to key points in long posts</li>
+  <li>Italic text adds emphasis and nuance</li>
+  <li>Structured formatting makes posts easier to scan</li>
+  <li>Formatted headlines stand out in search results and notifications</li>
+  <li>Professional structure signals a thoughtful author</li>
+</ul>
+
+<h3>LinkedIn text formatting best practices</h3>
+<ul>
+  <li>Use bold for section headers and key terms — not every other word</li>
+  <li>Use italic for quotes, book titles, or gentle emphasis</li>
+  <li>Strikethrough works well for humor and contrast ("Before vs. after" style posts)</li>
+  <li>Sans bold is slightly more readable than serif bold in long posts</li>
+  <li>Less is more — over-formatting can feel cluttered</li>
+</ul>
+
+<p>For more LinkedIn content tips, see our <a href="/guides/linkedin-post-formatting/">LinkedIn Post Formatting Guide</a> and <a href="/tools/linkedin-post-preview/">Post Preview tool</a>.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Text Formatter — Bold, Italic, Unicode Styles | LinkedIn Toolkit"
+  description="Format your LinkedIn posts with bold, italic, strikethrough, and more Unicode text styles. One-click copy. Works for posts, headlines, and About sections. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <TextFormatterTool client:load />
+</ToolLayout>

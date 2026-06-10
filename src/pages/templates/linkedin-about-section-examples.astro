@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RelatedTools from '../../components/sections/RelatedTools.astro';
+import CTA from '../../components/sections/CTA.astro';
+import { getToolById } from '../../data/tools';
+
+const relatedTools = [
+  getToolById('about-section-templates')!,
+  getToolById('character-counter')!,
+  getToolById('headline-analyzer')!,
+];
+---
+
+<BaseLayout
+  title="LinkedIn About Section Examples — By Role & Career Stage | LinkedIn Toolkit"
+  description="Real LinkedIn About section examples for students, software engineers, product managers, recruiters, and marketers. See what works and why."
+  ogType="article"
+  breadcrumbs={[
+    { name: 'Home', url: '/' },
+    { name: 'Templates', url: '/templates/' },
+    { name: 'About Section Examples', url: '/templates/linkedin-about-section-examples/' },
+  ]}
+>
+  <!-- Breadcrumb -->
+  <nav class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-label="Breadcrumb">
+    <div class="wrap-page py-3">
+      <ol class="flex items-center gap-2 list-none m-0 p-0 text-caption text-[var(--color-mute)]">
+        <li><a href="/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline">Home</a></li>
+        <li>/</li>
+        <li><a href="/templates/" class="text-[var(--color-body)] hover:text-[var(--color-ink)] no-underline">Templates</a></li>
+        <li>/</li>
+        <li aria-current="page" class="text-[var(--color-ink)] font-medium">About Section Examples</li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-12 pb-10">
+    <div class="wrap-page">
+      <div class="max-w-2xl">
+        <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Templates</span>
+        <h1 class="text-display-lg text-[var(--color-ink)] mb-4">
+          LinkedIn About section examples.
+        </h1>
+        <p class="text-body-lg text-[var(--color-body)]">
+          See real About section examples across roles and career stages. Use our interactive tool to generate yours.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      <div class="max-w-2xl">
+        <!-- Intro -->
+        <div class="mb-12">
+          <p class="text-body-lg text-[var(--color-body)] mb-6 leading-8">
+            Your About section is your LinkedIn story. It's the first place a recruiter, hiring manager, or potential business partner looks when they want to understand who you are beyond your job titles.
+          </p>
+
+          <div class="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-5 mb-6">
+            <h2 class="text-body-md-strong text-[var(--color-ink)] mb-3">Quick About section formula</h2>
+            <ol class="list-none p-0 m-0 flex flex-col gap-2 counter-list">
+              {[
+                'Opening hook — compelling first sentence (visible without "see more")',
+                'What you do — your role, specialty, and who you serve',
+                'Proof — 1-2 specific, quantified achievements',
+                'Background — brief relevant experience path',
+                'Current focus — what you\'re working on or looking for',
+                'CTA — how to reach you',
+              ].map((step, i) => (
+                <li class="flex items-start gap-3 text-body-sm text-[var(--color-body)]">
+                  <span class="text-caption-mono text-[var(--color-mute)] shrink-0 mt-0.5 w-5">{String(i + 1).padStart(2, '0')}</span>
+                  {step}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+
+        <!-- CTA to use the interactive tool -->
+        <div class="rounded-[var(--radius-md)] bg-[var(--color-ink)] text-white p-6 mb-12">
+          <h2 class="text-display-sm text-white mb-3">Use the interactive template tool.</h2>
+          <p class="text-body-sm text-white/70 mb-5">
+            The About Section Templates tool gives you role-specific templates that you can edit, customize, and copy directly — with a character counter built in.
+          </p>
+          <a href="/tools/linkedin-about-section-templates/" class="btn-secondary inline-flex" style="border-radius: var(--radius-pill);">
+            Open About Section Tool
+          </a>
+        </div>
+
+        <!-- Tips -->
+        <div>
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-6 pb-3 border-b border-[var(--color-hairline)]">
+            About section writing tips by role
+          </h2>
+
+          {[
+            {
+              role: 'Software Engineers',
+              tips: [
+                'List your core tech stack early — it signals immediate relevance to technical recruiters',
+                'Quantify impact: "reduced API latency by 40%" > "improved performance"',
+                'Mention open source contributions or side projects if they\'re relevant',
+                'Describe the scale you\'ve worked at: user count, request volume, team size',
+              ],
+            },
+            {
+              role: 'Product Managers',
+              tips: [
+                'Lead with the type of product and stage you specialize in (0→1, growth, enterprise)',
+                'Include cross-functional leadership: "working with engineering, design, and data"',
+                'Use metrics that matter to PMs: revenue impact, user growth, NPS, retention',
+                'Mention your background briefly — engineering, design, or business context is relevant',
+              ],
+            },
+            {
+              role: 'Marketers',
+              tips: [
+                'Specify your marketing specialty: content, demand gen, SEO, paid, brand',
+                'Lead with a growth metric: "grew organic traffic 3x", "generated 40% of pipeline"',
+                'Include the industry/company type you know best: B2B SaaS, e-commerce, fintech',
+                'Name specific tools you\'re an expert in if they\'re in demand in your field',
+              ],
+            },
+            {
+              role: 'Recruiters',
+              tips: [
+                'Define your niche clearly: function, seniority level, and industry',
+                'Include a placement count or volume metric if you have one',
+                'Describe what you look for beyond skills — values, team fit, career trajectory',
+                'State your outreach philosophy: passive candidates, diversity hiring, relationship-first',
+              ],
+            },
+          ].map((section) => (
+            <div class="mb-10">
+              <h3 class="text-body-md-strong text-[var(--color-ink)] mb-4">{section.role}</h3>
+              <ul class="list-none p-0 m-0 flex flex-col gap-2.5">
+                {section.tips.map((tip) => (
+                  <li class="flex items-start gap-3 text-body-sm text-[var(--color-body)]">
+                    <span class="text-[var(--color-mute)] mt-0.5">—</span>
+                    {tip}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <RelatedTools tools={relatedTools} title="Related tools." />
+
+  <CTA
+    heading="Write your LinkedIn About section."
+    body="Use our role-specific templates to write a compelling About section in minutes."
+    primaryCTA={{ label: 'Open About Section Tool', href: '/tools/linkedin-about-section-templates/' }}
+    secondaryCTA={{ label: 'Browse all tools', href: '/tools/' }}
+  />
+</BaseLayout>

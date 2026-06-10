@@ -1,0 +1,71 @@
+---
+import ToolLayout from '../../layouts/ToolLayout.astro';
+import HashtagGeneratorTool from '../../components/tools/HashtagGeneratorTool';
+import { getToolById, getRelatedTools } from '../../data/tools';
+
+const tool = getToolById('hashtag-generator')!;
+const relatedTools = getRelatedTools(tool);
+
+const faq = [
+  {
+    question: 'How many hashtags should I use on LinkedIn?',
+    answer: 'LinkedIn recommends using 3-5 hashtags per post. Using too many (10+) can appear spammy and may reduce your reach. Quality and relevance matter more than quantity.',
+  },
+  {
+    question: 'Do hashtags help LinkedIn post reach?',
+    answer: 'Yes. LinkedIn uses hashtags to categorize content and show it to people who follow those hashtags or whose interests match. Relevant hashtags increase your content\'s discoverability.',
+  },
+  {
+    question: 'Should I follow LinkedIn hashtags?',
+    answer: 'Yes. Following hashtags you post with means you\'ll see trending content in those topics and can engage with your target audience, which increases your own visibility.',
+  },
+  {
+    question: 'Where should I put hashtags in a LinkedIn post?',
+    answer: 'Most LinkedIn creators put hashtags at the end of the post, after the main content. This keeps the reading experience clean while still benefiting from hashtag categorization.',
+  },
+  {
+    question: 'What is the difference between niche and broad hashtags?',
+    answer: 'Broad hashtags like #Leadership have millions of followers but high competition. Niche hashtags like #B2BSalesLeadership have smaller audiences but less competition and more targeted reach. A mix of both tends to work best.',
+  },
+];
+
+const seoContent = {
+  heading: 'How to use LinkedIn hashtags effectively.',
+  content: `
+<p>Hashtags on LinkedIn work differently than on Instagram or Twitter. LinkedIn's algorithm uses hashtags to categorize content and distribute it to relevant audiences. Using the right hashtags can meaningfully expand your reach beyond your immediate network.</p>
+
+<h3>LinkedIn hashtag strategy</h3>
+<ul>
+  <li>Use 3-5 hashtags per post — more can appear spammy</li>
+  <li>Mix broad hashtags (high reach, high competition) with niche ones (targeted reach)</li>
+  <li>Use industry-specific hashtags that your target audience follows</li>
+  <li>Place hashtags at the end of your post for clean readability</li>
+  <li>Follow your most-used hashtags to engage with your community</li>
+</ul>
+
+<h3>Best hashtags for LinkedIn by topic</h3>
+<p>Different content types perform best with different hashtags. Career content works well with #CareerAdvice and #JobSearch. Leadership content performs with #Leadership and #Management. Tech content gains reach with #Technology and #AI.</p>
+
+<h3>LinkedIn hashtag best practices</h3>
+<ul>
+  <li>Research hashtag follower counts before committing — too small means no reach</li>
+  <li>Be consistent with the hashtags you use to build a recognizable presence</li>
+  <li>Don't use hashtags unrelated to your content just because they're popular</li>
+  <li>Create a personal branded hashtag if you post consistently about a specific topic</li>
+</ul>
+
+<p>After selecting your hashtags, use the <a href="/tools/linkedin-post-preview/">Post Preview tool</a> to see how your full post looks before publishing.</p>
+`,
+};
+---
+
+<ToolLayout
+  tool={tool}
+  title="LinkedIn Hashtag Generator — Find Relevant Hashtags for Your Posts | LinkedIn Toolkit"
+  description="Generate relevant LinkedIn hashtags by category and topic. Find the best hashtags for career, leadership, tech, marketing, and more. Free, no account required."
+  faq={faq}
+  seoContent={seoContent}
+  relatedTools={relatedTools}
+>
+  <HashtagGeneratorTool client:load />
+</ToolLayout>
