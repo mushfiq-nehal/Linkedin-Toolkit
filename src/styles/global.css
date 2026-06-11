@@ -18,7 +18,9 @@
     --color-link: #0070f3;
     --color-link-deep: #0761d1;
     --color-link-bg-soft: #d3e5ff;
-    --color-success: #0070f3;
+    --color-success: #16a34a;
+    --color-success-soft: #dcfce7;
+    --color-success-deep: #15803d;
     --color-error: #ee0000;
     --color-error-soft: #f7d4d6;
     --color-error-deep: #c50000;
@@ -93,7 +95,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-hairline-strong);
     outline-offset: 2px;
   }
 

@@ -164,7 +164,7 @@ export default function EmojiAdderTool() {
               onClick={copyPost}
               className={`flex items-center gap-1.5 text-body-sm-strong px-3 py-1 rounded-[var(--radius-sm)] transition-all ${
                 copiedEmoji === '__post__'
-                  ? 'text-[var(--color-success)] bg-[var(--color-link-bg-soft)]'
+                  ? 'text-[var(--color-success)] bg-[var(--color-success-soft)]'
                   : 'text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft-2)]'
               }`}
             >
