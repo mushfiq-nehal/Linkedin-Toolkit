@@ -42,6 +42,8 @@ const toolSchema = schema ?? {
   url: `https://linkedintoolkit.com${tool.href}`,
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  featureList: tool.tags.join(', '),
   offers: {
     '@type': 'Offer',
     price: '0',

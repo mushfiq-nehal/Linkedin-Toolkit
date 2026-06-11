@@ -123,6 +123,45 @@ export function formatText(text: string, style: StyleKey): string {
   }).join('');
 }
 
+/**
+ * Reverse lookup: maps any styled Unicode character back to plain ASCII.
+ * Built once from CHAR_MAPS (combining-mark styles are handled separately).
+ */
+const REVERSE_MAP: Record<string, string> = (() => {
+  const map: Record<string, string> = {};
+  (Object.keys(CHAR_MAPS) as StyleKey[]).forEach((style) => {
+    if (style === 'strikethrough' || style === 'underline') return;
+    const cm = CHAR_MAPS[style];
+    if (cm.uppercase) {
+      [...cm.uppercase].forEach((c, i) => {
+        if (c !== UPPERCASE[i]) map[c] = UPPERCASE[i];
+      });
+    }
+    if (cm.lowercase) {
+      [...cm.lowercase].forEach((c, i) => {
+        if (c !== LOWERCASE[i]) map[c] = LOWERCASE[i];
+      });
+    }
+    if (cm.digits) {
+      [...cm.digits].forEach((c, i) => {
+        if (c !== DIGITS[i]) map[c] = DIGITS[i];
+      });
+    }
+  });
+  return map;
+})();
+
+/**
+ * Remove all Unicode styling from text: strips combining strikethrough and
+ * underline marks and maps styled letters/digits back to plain characters.
+ */
+export function unformatText(text: string): string {
+  return [...text]
+    .filter((char) => char !== '\u0336' && char !== '\u0332')
+    .map((char) => REVERSE_MAP[char] ?? char)
+    .join('');
+}
+
 export const STYLES: Array<{
   key: StyleKey;
   label: string;

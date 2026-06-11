@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { formatText, STYLES } from '../../lib/tools/text-formatter';
+import { formatText, unformatText, STYLES } from '../../lib/tools/text-formatter';
 
 async function fetchAIHooks(content: string): Promise<string[]> {
   const res = await fetch('/api/ai', {
@@ -19,6 +19,7 @@ type Device = 'desktop' | 'mobile';
 type StyleKey = Parameters<typeof formatText>[1];
 
 const MAX_CHARS = 3000;
+const DRAFT_KEY = 'linkedin-toolkit:text-formatter-draft';
 
 const EMOJI_CATEGORIES = [
   {
@@ -460,6 +461,36 @@ export default function TextFormatterTool() {
   const [canRedo, setCanRedo] = useState(false);
   const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Restore saved draft from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        setText(saved);
+        historyRef.current = [saved];
+        historyIndexRef.current = 0;
+      }
+    } catch {
+      // localStorage unavailable (e.g. private browsing) — ignore
+    }
+  }, []);
+
+  // Auto-save draft to localStorage (debounced)
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        if (text) {
+          localStorage.setItem(DRAFT_KEY, text);
+        } else {
+          localStorage.removeItem(DRAFT_KEY);
+        }
+      } catch {
+        // ignore storage errors
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, [text]);
+
   function pushHistory(value: string) {
     // Discard any future states when a new change is made
     historyRef.current = historyRef.current.slice(0, historyIndexRef.current + 1);
@@ -521,6 +552,45 @@ export default function TextFormatterTool() {
     requestAnimationFrame(() => {
       el.focus();
       el.setSelectionRange(start, start + transformed.length);
+    });
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    const mod = e.metaKey || e.ctrlKey;
+    if (!mod) return;
+    const key = e.key.toLowerCase();
+    if (key === 'b') {
+      e.preventDefault();
+      applyFormat('bold');
+    } else if (key === 'i') {
+      e.preventDefault();
+      applyFormat('italic');
+    } else if (key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      undo();
+    } else if (key === 'y' || (key === 'z' && e.shiftKey)) {
+      e.preventDefault();
+      redo();
+    }
+  }
+
+  function clearFormatting() {
+    const el = textareaRef.current;
+    if (!el) return;
+    const start = el.selectionStart;
+    const end = el.selectionEnd;
+    const hasSelection = start !== end;
+    const target = hasSelection ? text.slice(start, end) : text;
+    const cleaned = unformatText(target);
+    const newText = hasSelection
+      ? text.slice(0, start) + cleaned + text.slice(end)
+      : cleaned;
+    if (newText === text) return;
+    setText(newText);
+    pushHistory(newText);
+    requestAnimationFrame(() => {
+      el.focus();
+      if (hasSelection) el.setSelectionRange(start, start + cleaned.length);
     });
   }
 
@@ -710,6 +780,14 @@ export default function TextFormatterTool() {
                   {f.glyph}
                 </button>
               ))}
+              <button
+                onClick={clearFormatting}
+                title="Clear formatting — applies to selection, or the whole post"
+                aria-label="Clear formatting"
+                className="flex items-center justify-center w-8 h-8 rounded-[var(--radius-xs)] text-[var(--color-body)] hover:bg-[var(--color-canvas-soft-2)] hover:text-[var(--color-ink)] active:bg-[var(--color-canvas-soft-2)] transition-colors text-[12px] font-semibold leading-none select-none"
+              >
+                Tx
+              </button>
             </div>
 
             <div className="w-px h-5 bg-[var(--color-hairline)] mx-1 shrink-0" aria-hidden="true" />
@@ -785,7 +863,7 @@ export default function TextFormatterTool() {
 
             {/* Right-aligned usage hint */}
             <span className="ml-auto text-caption text-[var(--color-mute)] hidden sm:block select-none" aria-hidden="true">
-              Select text → apply style
+              Select text → apply style · Ctrl+B bold · Ctrl+I italic
             </span>
           </div>
 
@@ -845,6 +923,7 @@ export default function TextFormatterTool() {
               if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
               typingTimerRef.current = setTimeout(() => pushHistory(val), 600);
             }}
+            onKeyDown={handleKeyDown}
             placeholder="Write your LinkedIn post here. Select text, then click a format button to apply bold, italic, or other styles."
             className="flex-1 w-full min-h-[280px] bg-[var(--color-canvas)] text-[var(--color-ink)] text-body-sm px-4 py-4 resize-none focus:outline-none placeholder:text-[var(--color-mute)] leading-relaxed"
             aria-label="LinkedIn post content"
@@ -934,13 +1013,13 @@ export default function TextFormatterTool() {
             </div>
           )}
 
-          {/* Copy button */}
-          <div className="px-4 py-3 border-t border-[var(--color-hairline)]">
+          {/* Copy + clear */}
+          <div className="px-4 py-3 border-t border-[var(--color-hairline)] flex items-center gap-2">
             <button
               onClick={copyText}
               disabled={!text}
               aria-live="polite"
-              className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--radius-sm)] text-body-sm-strong transition-all ${
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--radius-sm)] text-body-sm-strong transition-all ${
                 !text
                   ? 'bg-[var(--color-canvas-soft-2)] text-[var(--color-mute)] cursor-not-allowed'
                   : copied
@@ -959,6 +1038,27 @@ export default function TextFormatterTool() {
                   Copy formatted text
                 </>
               )}
+            </button>
+            <button
+              onClick={() => {
+                setText('');
+                pushHistory('');
+                try {
+                  localStorage.removeItem(DRAFT_KEY);
+                } catch {
+                  // ignore storage errors
+                }
+              }}
+              disabled={!text}
+              title="Clear post and saved draft"
+              aria-label="Clear post and saved draft"
+              className={`shrink-0 px-4 py-2.5 rounded-[var(--radius-sm)] text-body-sm border transition-colors ${
+                !text
+                  ? 'border-[var(--color-hairline)] text-[var(--color-mute)] cursor-not-allowed'
+                  : 'border-[var(--color-hairline)] text-[var(--color-body)] hover:text-[var(--color-error)] hover:border-[var(--color-error)]'
+              }`}
+            >
+              Clear
             </button>
           </div>
         </div>
@@ -1243,6 +1343,13 @@ export default function TextFormatterTool() {
           </p>
         </div>
       )}
+
+      {/* Accessibility + draft note */}
+      <p className="text-caption text-[var(--color-mute)]">
+        Your draft is saved automatically in this browser. Note: Unicode-styled text may be
+        read letter-by-letter by some screen readers — use formatting for emphasis, not for
+        entire posts.
+      </p>
     </div>
   );
 }
