@@ -1,6 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { formatText, STYLES } from '../../lib/tools/text-formatter';
 
+async function fetchAIHooks(content: string): Promise<string[]> {
+  const res = await fetch('/api/ai', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ task: 'hooks', content }),
+  });
+  const data = await res.json() as { result?: string; error?: string };
+  if (!res.ok || data.error) throw new Error(data.error ?? 'AI request failed');
+  return (data.result ?? '')
+    .split('\n')
+    .map(l => l.replace(/^\d+\.\s*/, '').trim())
+    .filter(Boolean);
+}
+
 type Device = 'desktop' | 'mobile';
 type StyleKey = Parameters<typeof formatText>[1];
 
@@ -424,6 +438,18 @@ export default function TextFormatterTool() {
   const [recentEmojis, setRecentEmojis] = useState<string[]>([]);
   const [copiedStyleKey, setCopiedStyleKey] = useState<string | null>(null);
 
+  // AI hook suggestions
+  const [aiHooks, setAiHooks] = useState<string[]>([]);
+  const [aiHooksLoading, setAiHooksLoading] = useState(false);
+  const [aiHooksError, setAiHooksError] = useState('');
+  const [aiHooksDone, setAiHooksDone] = useState(false);
+
+  // AI hashtag nudge
+  const [nudgeHashtags, setNudgeHashtags] = useState<string[]>([]);
+  const [nudgeLoading, setNudgeLoading] = useState(false);
+  const [nudgeError, setNudgeError] = useState('');
+  const [nudgeDismissed, setNudgeDismissed] = useState(false);
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
 
@@ -580,6 +606,62 @@ export default function TextFormatterTool() {
     }
     setCopiedStyleKey(key);
     setTimeout(() => setCopiedStyleKey(null), 2000);
+  }
+
+  async function handleAIHooks() {
+    if (!text.trim()) return;
+    setAiHooksLoading(true);
+    setAiHooksError('');
+    setAiHooks([]);
+    setAiHooksDone(false);
+    try {
+      const hooks = await fetchAIHooks(text);
+      setAiHooks(hooks);
+      setAiHooksDone(true);
+    } catch (err) {
+      setAiHooksError(err instanceof Error ? err.message : 'Something went wrong.');
+    } finally {
+      setAiHooksLoading(false);
+    }
+  }
+
+  async function handleNudgeHashtags() {
+    if (!text.trim()) return;
+    setNudgeLoading(true);
+    setNudgeError('');
+    setNudgeHashtags([]);
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ task: 'hashtags', content: text }),
+      });
+      const data = await res.json() as { result?: string; error?: string };
+      if (!res.ok || data.error) throw new Error(data.error ?? 'AI request failed');
+      const tags = (data.result ?? '')
+        .split('\n')
+        .map((l: string) => l.trim())
+        .filter((l: string) => l.startsWith('#'));
+      setNudgeHashtags(tags);
+    } catch (err) {
+      setNudgeError(err instanceof Error ? err.message : 'Something went wrong.');
+    } finally {
+      setNudgeLoading(false);
+    }
+  }
+
+  function appendHashtagToPost(tag: string) {
+    const newText = text.trimEnd() + '\n\n' + tag;
+    setText(newText);
+    pushHistory(newText);
+    setNudgeHashtags(prev => prev.filter(t => t !== tag));
+  }
+
+  function useHookAsOpener(hook: string) {
+    const rest = text.split('\n').slice(1).join('\n').trimStart();
+    const newText = rest ? `${hook}\n\n${rest}` : hook;
+    setText(newText);
+    pushHistory(newText);
   }
 
   const emojiCategoriesWithRecent =
@@ -794,6 +876,64 @@ export default function TextFormatterTool() {
             </div>
           </div>
 
+          {/* Hashtag nudge */}
+          {text.length > 60 && !/#\w+/.test(text) && !nudgeDismissed && (
+            <div className="border-t border-[var(--color-hairline)] px-4 py-3 bg-[var(--color-canvas-soft)]">
+              {nudgeHashtags.length === 0 && !nudgeLoading && !nudgeError && (
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-caption text-[var(--color-ink)]">
+                    <span className="font-semibold">No hashtags detected</span>
+                    <span className="text-[var(--color-body)]"> — add some for better reach?</span>
+                  </p>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={handleNudgeHashtags}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-xs)] text-caption-strong text-white bg-[var(--color-ink)] hover:opacity-90 transition-opacity"
+                    >
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                      Generate
+                    </button>
+                    <button
+                      onClick={() => setNudgeDismissed(true)}
+                      className="text-caption text-[var(--color-mute)] hover:text-[var(--color-ink)] transition-colors"
+                      aria-label="Dismiss"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {nudgeLoading && (
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full border-2 border-[var(--color-ink)] border-t-transparent animate-spin" aria-hidden="true" />
+                  <span className="text-caption text-[var(--color-mute)]">Generating hashtags…</span>
+                </div>
+              )}
+
+              {nudgeError && (
+                <p className="text-caption text-[var(--color-error)]">{nudgeError}</p>
+              )}
+
+              {nudgeHashtags.length > 0 && (
+                <div>
+                  <p className="text-caption text-[var(--color-mute)] mb-2">Click to add to your post:</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {nudgeHashtags.map(tag => (
+                      <button
+                        key={tag}
+                        onClick={() => appendHashtagToPost(tag)}
+                        className="px-2.5 py-1 rounded-full border border-[var(--color-hairline)] text-caption text-[var(--color-body)] bg-[var(--color-canvas-soft)] hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] hover:bg-[var(--color-canvas)] transition-all"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Copy button */}
           <div className="px-4 py-3 border-t border-[var(--color-hairline)]">
             <button
@@ -985,6 +1125,66 @@ export default function TextFormatterTool() {
 
               {/* Hook analyzer */}
               {text && <HookAnalyzer text={text} truncated={isTruncated} />}
+
+              {/* AI Hook Suggestions */}
+              {text && (
+                <div className="mt-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold flex items-center gap-1" style={{ color: '#374151' }}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                      AI hook ideas
+                    </span>
+                    <button
+                      onClick={handleAIHooks}
+                      disabled={aiHooksLoading}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold transition-opacity disabled:opacity-40"
+                      style={{ background: '#111827', color: '#fff' }}
+                    >
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+                      {aiHooksLoading ? 'Writing…' : aiHooksDone ? 'Regenerate' : 'Generate'}
+                    </button>
+                  </div>
+
+                  {aiHooksError && (
+                    <p className="text-xs rounded px-3 py-2" style={{ color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca' }}>
+                      {aiHooksError}
+                    </p>
+                  )}
+
+                  {aiHooksLoading && (
+                    <div className="flex flex-col gap-2">
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <div key={i} className="h-7 rounded animate-pulse" style={{ background: '#f3f4f6' }} />
+                      ))}
+                    </div>
+                  )}
+
+                  {!aiHooksLoading && aiHooks.length > 0 && (
+                    <ol className="flex flex-col gap-2 list-none p-0 m-0">
+                      {aiHooks.map((hook, i) => (
+                        <li key={i} className="flex items-start gap-2 rounded px-3 py-2" style={{ background: '#f9fafb', border: '1px solid #e5e7eb' }}>
+                          <span className="text-xs shrink-0" style={{ color: '#9ca3af', marginTop: '2px' }}>{i + 1}.</span>
+                          <span className="text-xs flex-1 leading-snug" style={{ color: '#111827' }}>{hook}</span>
+                          <button
+                            onClick={() => useHookAsOpener(hook)}
+                            className="shrink-0 text-xs px-2 py-0.5 rounded transition-colors hover:bg-white whitespace-nowrap"
+                            style={{ color: '#0a66c2', border: '1px solid #e5e7eb' }}
+                            title="Replace first line with this hook"
+                          >
+                            Use
+                          </button>
+                        </li>
+                      ))}
+                    </ol>
+                  )}
+
+                  {!aiHooksLoading && !aiHooksDone && !aiHooksError && (
+                    <p className="text-xs" style={{ color: '#374151' }}>
+                      Get 3 AI-written opening lines — click <strong>Generate</strong> to replace your hook.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

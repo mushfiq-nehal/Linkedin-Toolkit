@@ -1,6 +1,29 @@
 import { useState } from 'react';
 import { analyzeHeadline } from '../../lib/tools/headline-analyzer';
 
+async function fetchAIHeadlines(content: string): Promise<string[]> {
+  const res = await fetch('/api/ai', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ task: 'headline', content }),
+  });
+  const data = await res.json() as { result?: string; error?: string };
+  if (!res.ok || data.error) throw new Error(data.error ?? 'AI request failed');
+  // Parse numbered lines: "1. ...", "2. ...", "3. ..."
+  return (data.result ?? '')
+    .split('\n')
+    .map(l => l.replace(/^\d+\.\s*/, '').trim())
+    .filter(Boolean);
+}
+
+function SparkleIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+    </svg>
+  );
+}
+
 const SCORE_LABELS: Record<string, string> = {
   clarity: 'Clarity',
   length: 'Length',
@@ -33,7 +56,28 @@ const EXAMPLE_HEADLINES = [
 
 export default function HeadlineAnalyzerTool() {
   const [headline, setHeadline] = useState('');
+  const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
+  const [aiDone, setAiDone] = useState(false);
   const result = headline.trim() ? analyzeHeadline(headline) : null;
+
+  const handleAIRewrite = async () => {
+    if (!headline.trim()) return;
+    setAiLoading(true);
+    setAiError('');
+    setAiSuggestions([]);
+    setAiDone(false);
+    try {
+      const suggestions = await fetchAIHeadlines(headline);
+      setAiSuggestions(suggestions);
+      setAiDone(true);
+    } catch (err) {
+      setAiError(err instanceof Error ? err.message : 'Something went wrong. Try again.');
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -163,6 +207,60 @@ export default function HeadlineAnalyzerTool() {
               </ul>
             </div>
           )}
+
+          {/* AI rewrite */}
+          <div className="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-body-sm-strong text-[var(--color-ink)] flex items-center gap-1.5">
+                <SparkleIcon />
+                AI headline rewrites
+              </h3>
+              <button
+                onClick={handleAIRewrite}
+                disabled={aiLoading}
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-[var(--radius-sm)] bg-[var(--color-ink)] text-white text-body-sm-strong transition-opacity disabled:opacity-40"
+              >
+                <SparkleIcon />
+                {aiLoading ? 'Writing…' : aiDone ? 'Regenerate' : 'Generate'}
+              </button>
+            </div>
+
+            {aiError && (
+              <p className="text-body-sm text-[var(--color-error)] mb-3">{aiError}</p>
+            )}
+
+            {aiLoading && (
+              <div className="flex flex-col gap-3" aria-busy="true">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="h-10 rounded-[var(--radius-sm)] bg-[var(--color-canvas-soft-2)] animate-pulse" />
+                ))}
+              </div>
+            )}
+
+            {!aiLoading && aiSuggestions.length > 0 && (
+              <ol className="flex flex-col gap-3 list-none p-0 m-0">
+                {aiSuggestions.map((s, i) => (
+                  <li key={i} className="flex items-start gap-3 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] px-4 py-3">
+                    <span className="text-caption-mono text-[var(--color-mute)] shrink-0 mt-0.5">{i + 1}.</span>
+                    <span className="text-body-sm text-[var(--color-ink)] flex-1">{s}</span>
+                    <button
+                      onClick={() => setHeadline(s)}
+                      className="shrink-0 text-caption text-[var(--color-body)] hover:text-[var(--color-ink)] border border-[var(--color-hairline)] rounded-[var(--radius-xs)] px-2 py-0.5 transition-colors whitespace-nowrap"
+                      title="Use this headline"
+                    >
+                      Use this
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            )}
+
+            {!aiLoading && !aiDone && !aiError && (
+              <p className="text-body-sm text-[var(--color-mute)]">
+                Click "Generate" to get 3 AI-written versions of your headline — optimised for keywords and impact.
+              </p>
+            )}
+          </div>
 
           {/* Keyword suggestions */}
           <div className="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-5">
