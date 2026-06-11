@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import CharacterCounterTool from '../../components/tools/CharacterCounterTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import CharacterCounterTool from '../components/tools/CharacterCounterTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('character-counter')!;
 const relatedTools = getRelatedTools(tool);
@@ -55,7 +55,7 @@ const seoContent = {
 <h3>How to optimize LinkedIn post length</h3>
 <p>Research suggests that LinkedIn posts between 1,500 and 2,000 characters tend to perform best for engagement. Short posts (under 500 characters) can work well for punchy content, while longer posts (1,500–3,000 characters) work well for storytelling and educational content.</p>
 
-<p>Use the <a href="/tools/linkedin-post-preview/">LinkedIn Post Preview</a> tool to see how your post length appears to readers, and the <a href="/tools/linkedin-text-formatter/">Text Formatter</a> to add structure with bold and italic styles.</p>
+<p>Use the <a href="/linkedin-post-preview/">LinkedIn Post Preview</a> tool to see how your post length appears to readers, and the <a href="/linkedin-text-formatter/">Text Formatter</a> to add structure with bold and italic styles.</p>
 `,
 };
 ---

@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import HeadlineAnalyzerTool from '../../components/tools/HeadlineAnalyzerTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import HeadlineAnalyzerTool from '../components/tools/HeadlineAnalyzerTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('headline-analyzer')!;
 const relatedTools = getRelatedTools(tool);
@@ -61,7 +61,7 @@ const seoContent = {
   <li>Not including searchable keywords for your field</li>
 </ul>
 
-<p>For real-world examples, see our <a href="/guides/linkedin-headline-examples/">LinkedIn Headline Examples</a> guide. Use the <a href="/tools/linkedin-character-counter/">Character Counter</a> to stay within the 220-character limit.</p>
+<p>For real-world examples, see our <a href="/guides/linkedin-headline-examples/">LinkedIn Headline Examples</a> guide. Use the <a href="/linkedin-character-counter/">Character Counter</a> to stay within the 220-character limit.</p>
 `,
 };
 ---

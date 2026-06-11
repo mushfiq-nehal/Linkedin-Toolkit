@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import TextFormatterTool from '../../components/tools/TextFormatterTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import TextFormatterTool from '../components/tools/TextFormatterTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('text-formatter')!;
 const relatedTools = getRelatedTools(tool);

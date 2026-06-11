@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import HashtagGeneratorTool from '../../components/tools/HashtagGeneratorTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import HashtagGeneratorTool from '../components/tools/HashtagGeneratorTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('hashtag-generator')!;
 const relatedTools = getRelatedTools(tool);
@@ -54,7 +54,7 @@ const seoContent = {
   <li>Create a personal branded hashtag if you post consistently about a specific topic</li>
 </ul>
 
-<p>After selecting your hashtags, use the <a href="/tools/linkedin-post-preview/">Post Preview tool</a> to see how your full post looks before publishing.</p>
+<p>After selecting your hashtags, use the <a href="/linkedin-post-preview/">Post Preview tool</a> to see how your full post looks before publishing.</p>
 `,
 };
 ---

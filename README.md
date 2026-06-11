@@ -8,14 +8,14 @@ Free LinkedIn tools for creators, professionals, job seekers, and recruiters. Bu
 
 | Tool | URL |
 |------|-----|
-| LinkedIn Text Formatter | `/tools/linkedin-text-formatter/` |
-| LinkedIn Post Preview | `/tools/linkedin-post-preview/` |
-| LinkedIn Character Counter | `/tools/linkedin-character-counter/` |
-| LinkedIn Headline Analyzer | `/tools/linkedin-headline-analyzer/` |
-| LinkedIn Hashtag Generator | `/tools/linkedin-hashtag-generator/` |
-| LinkedIn Emoji Adder | `/tools/linkedin-emoji-adder/` |
-| LinkedIn Connection Message Templates | `/tools/linkedin-connection-message-templates/` |
-| LinkedIn About Section Templates | `/tools/linkedin-about-section-templates/` |
+| LinkedIn Text Formatter | `/linkedin-text-formatter/` |
+| LinkedIn Post Preview | `/linkedin-post-preview/` |
+| LinkedIn Character Counter | `/linkedin-character-counter/` |
+| LinkedIn Headline Analyzer | `/linkedin-headline-analyzer/` |
+| LinkedIn Hashtag Generator | `/linkedin-hashtag-generator/` |
+| LinkedIn Emoji Adder | `/linkedin-emoji-adder/` |
+| LinkedIn Connection Message Templates | `/linkedin-connection-message-templates/` |
+| LinkedIn About Section Templates | `/linkedin-about-section-templates/` |
 
 ## Project Structure
 

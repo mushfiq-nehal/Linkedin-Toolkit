@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import AboutSectionTool from '../../components/tools/AboutSectionTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import AboutSectionTool from '../components/tools/AboutSectionTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('about-section-templates')!;
 const relatedTools = getRelatedTools(tool);
@@ -56,7 +56,7 @@ const seoContent = {
   <li>Forgetting to include keywords for your field</li>
 </ul>
 
-<p>After writing your About section, use the <a href="/tools/linkedin-character-counter/">Character Counter</a> to ensure you're within the 2,600-character limit. See more examples in our <a href="/templates/linkedin-about-section-examples/">About Section Examples</a> collection.</p>
+<p>After writing your About section, use the <a href="/linkedin-character-counter/">Character Counter</a> to ensure you're within the 2,600-character limit. See more examples in our <a href="/templates/linkedin-about-section-examples/">About Section Examples</a> collection.</p>
 `,
 };
 ---

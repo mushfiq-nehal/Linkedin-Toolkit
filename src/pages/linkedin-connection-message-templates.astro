@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import ConnectionMessageTool from '../../components/tools/ConnectionMessageTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import ConnectionMessageTool from '../components/tools/ConnectionMessageTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('connection-message-templates')!;
 const relatedTools = getRelatedTools(tool);

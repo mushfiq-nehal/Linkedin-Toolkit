@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import EmojiAdderTool from '../../components/tools/EmojiAdderTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import EmojiAdderTool from '../components/tools/EmojiAdderTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('emoji-adder')!;
 const relatedTools = getRelatedTools(tool);
@@ -47,7 +47,7 @@ const seoContent = {
   <li>Screen readers read emojis aloud — keep accessibility in mind</li>
 </ul>
 
-<p>For full post formatting with bold and italic styles, see the <a href="/tools/linkedin-text-formatter/">LinkedIn Text Formatter</a>.</p>
+<p>For full post formatting with bold and italic styles, see the <a href="/linkedin-text-formatter/">LinkedIn Text Formatter</a>.</p>
 `,
 };
 ---

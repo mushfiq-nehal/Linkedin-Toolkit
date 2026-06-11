@@ -1,7 +1,7 @@
 ---
-import ToolLayout from '../../layouts/ToolLayout.astro';
-import PostPreviewTool from '../../components/tools/PostPreviewTool';
-import { getToolById, getRelatedTools } from '../../data/tools';
+import ToolLayout from '../layouts/ToolLayout.astro';
+import PostPreviewTool from '../components/tools/PostPreviewTool';
+import { getToolById, getRelatedTools } from '../data/tools';
 
 const tool = getToolById('post-preview')!;
 const relatedTools = getRelatedTools(tool);
@@ -57,7 +57,7 @@ const seoContent = {
   <li>Avoid opening with "I" — readers care about themselves, not you (at first)</li>
 </ul>
 
-<p>For more tips, see our <a href="/guides/linkedin-post-formatting/">LinkedIn Post Formatting Guide</a> or use the <a href="/tools/linkedin-character-counter/">LinkedIn Character Counter</a> to track your post length.</p>
+<p>For more tips, see our <a href="/guides/linkedin-post-formatting/">LinkedIn Post Formatting Guide</a> or use the <a href="/linkedin-character-counter/">LinkedIn Character Counter</a> to track your post length.</p>
 `,
 };
 ---

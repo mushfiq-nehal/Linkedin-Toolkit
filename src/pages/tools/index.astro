@@ -2,13 +2,6 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ToolCard from '../../components/ui/ToolCard.astro';
 import { tools } from '../../data/tools';
-
-const categories = [
-  { id: 'formatting', label: 'Formatting' },
-  { id: 'analytics', label: 'Analytics' },
-  { id: 'templates', label: 'Templates' },
-  { id: 'content', label: 'Content' },
-] as const;
 ---
 
 <BaseLayout
@@ -17,39 +10,28 @@ const categories = [
   breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Tools', url: '/tools/' }]}
 >
   <!-- Header -->
-  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-10 pb-8">
     <div class="wrap-page">
       <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Free LinkedIn Tools</span>
-      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-3 max-w-2xl">
         Every LinkedIn tool you need, free.
       </h1>
       <p class="text-body-lg text-[var(--color-body)] max-w-xl">
-        {tools.length} tools for formatting, analytics, templates, and content. No account required.
+        {tools.length} free tools. No account required.
       </p>
     </div>
   </div>
 
-  <!-- Tools by category -->
-  <div class="bg-[var(--color-canvas-soft)]">
-    <div class="wrap-page py-16">
-      {categories.map((cat) => {
-        const catTools = tools.filter((t) => t.category === cat.id);
-        if (catTools.length === 0) return null;
-        return (
-          <section class="mb-16 last:mb-0" aria-labelledby={`cat-${cat.id}`}>
-            <h2 id={`cat-${cat.id}`} class="text-display-sm text-[var(--color-ink)] mb-6 pb-4 border-b border-[var(--color-hairline)]">
-              {cat.label}
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {catTools.map((tool) => (
-                <ToolCard tool={tool} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+  <!-- All tools -->
+  <section class="bg-[var(--color-canvas-soft)]" aria-label="All tools">
+    <div class="wrap-page py-10">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {tools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- Internal links -->
   <section class="section-padding border-t border-[var(--color-hairline)] bg-[var(--color-canvas)]" aria-labelledby="also-explore">
