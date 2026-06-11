@@ -13,7 +13,7 @@ const faq = [
   },
   {
     question: 'Where does LinkedIn truncate posts with "see more"?',
-    answer: 'LinkedIn shows a "see more" button after approximately 210 characters on desktop and 140 characters on mobile. Content beyond these thresholds is hidden until the reader expands the post.',
+    answer: 'LinkedIn truncates posts after the first 3 lines on the feed, adding a "…see more" link. The exact character count that fills 3 lines depends on your screen size and font rendering, which is why our preview uses the same 3-line clip rather than a fixed character count.',
   },
   {
     question: 'Should I put my most important content before the "see more" cutoff?',
@@ -35,7 +35,7 @@ const seoContent = {
 <p>Publishing a LinkedIn post without previewing it is like sending an email without reading it back. The LinkedIn post preview tool lets you see exactly how your post will appear to your network — including the critical truncation point where LinkedIn hides content behind "see more".</p>
 
 <h3>The importance of the LinkedIn hook</h3>
-<p>LinkedIn shows the first ~210 characters of a post on desktop and ~140 on mobile before truncating with "see more". Everything before that cutoff is your hook — your one chance to convince the reader to engage.</p>
+<p>LinkedIn shows the first 3 lines of a post in the feed before truncating with "…see more". Everything visible in those 3 lines is your hook — your one chance to convince the reader to expand and engage.</p>
 
 <p>Most high-performing LinkedIn posts front-load their value: a compelling question, a surprising statistic, a bold claim, or a provocative statement that makes scrolling impossible.</p>
 
@@ -43,8 +43,8 @@ const seoContent = {
 <p>LinkedIn's feed looks different on desktop and mobile. The column width is narrower on mobile, which means line breaks happen at different points. A post formatted beautifully on desktop can look broken on mobile, and vice versa.</p>
 
 <ul>
-  <li>Mobile: narrower column, shorter truncation (~140 characters)</li>
-  <li>Desktop: wider column, longer truncation (~210 characters)</li>
+  <li>Mobile: narrower column, so 3 lines hold fewer words</li>
+  <li>Desktop: wider column, so 3 lines can carry a longer hook</li>
   <li>Always preview on both devices before publishing</li>
 </ul>
 
