@@ -1,71 +1,59 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import EmojiPicker from './EmojiPicker';
+import { loadRecentEmojis, saveRecentEmoji } from '../../lib/tools/emoji-data';
 
-const EMOJI_CATEGORIES = [
-  {
-    id: 'bullets',
-    label: 'Bullets & Lists',
-    emojis: ['▶️', '▸', '◆', '◇', '•', '✅', '☑️', '✔️', '➡️', '🔹', '🔸', '💠', '🔘', '📌', '📍'],
-  },
-  {
-    id: 'positive',
-    label: 'Positive & Motivational',
-    emojis: ['🚀', '💡', '⭐', '🌟', '✨', '🎯', '🏆', '🎉', '💪', '🙌', '👏', '🤝', '❤️', '🔥', '⚡'],
-  },
-  {
-    id: 'business',
-    label: 'Business & Work',
-    emojis: ['💼', '📊', '📈', '📉', '💰', '🏢', '🤝', '📋', '🗓️', '⏰', '📧', '💻', '🖥️', '📱', '🔑'],
-  },
-  {
-    id: 'education',
-    label: 'Education & Learning',
-    emojis: ['📚', '📖', '🎓', '✏️', '📝', '💭', '🧠', '🔬', '💡', '🌱', '📘', '📗', '📙', '🏫', '🎒'],
-  },
-  {
-    id: 'people',
-    label: 'People & Roles',
-    emojis: ['👨‍💻', '👩‍💻', '👨‍🎓', '👩‍🎓', '👨‍💼', '👩‍💼', '🧑‍💻', '🤵', '👔', '👥', '🧑‍🤝‍🧑', '👤', '🙋', '🙋‍♂️', '🙋‍♀️'],
-  },
-  {
-    id: 'actions',
-    label: 'Actions & Emphasis',
-    emojis: ['👇', '👆', '👉', '👈', '⬇️', '⬆️', '➕', '➖', '❓', '❗', '‼️', '⚠️', '🔔', '📢', '💬'],
-  },
-];
+function IconCopy() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <rect x="4" y="4" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.2" />
+      <path d="M2 9V3a1 1 0 011-1h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconCheck() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M2 7l4 4 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconTrash() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path d="M2 3.5h10M5 3.5V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5v1M5.5 6v4M8.5 6v4M3.5 3.5l.5 8h6l.5-8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 export default function EmojiAdderTool() {
-  const [activeCategory, setActiveCategory] = useState('bullets');
   const [postText, setPostText] = useState('');
   const [recentEmojis, setRecentEmojis] = useState<string[]>([]);
-  const [copiedEmoji, setCopiedEmoji] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const insertEmoji = useCallback(
-    (emoji: string) => {
-      setPostText((prev) => prev + emoji);
-      setRecentEmojis((prev) => {
-        const filtered = prev.filter((e) => e !== emoji);
-        return [emoji, ...filtered].slice(0, 10);
-      });
-    },
-    []
-  );
-
-  const copyEmoji = useCallback(async (emoji: string) => {
-    try {
-      await navigator.clipboard.writeText(emoji);
-    } catch {
-      const el = document.createElement('textarea');
-      el.value = emoji;
-      document.body.appendChild(el);
-      el.select();
-      document.execCommand('copy');
-      document.body.removeChild(el);
-    }
-    setCopiedEmoji(emoji);
-    setTimeout(() => setCopiedEmoji(null), 1500);
+  useEffect(() => {
+    setRecentEmojis(loadRecentEmojis());
   }, []);
 
+  const insertEmoji = useCallback((emoji: string) => {
+    const el = textareaRef.current;
+    const pos = el ? el.selectionStart : postText.length;
+    const newText = postText.slice(0, pos) + emoji + postText.slice(pos);
+    setPostText(newText);
+    setRecentEmojis(prev => saveRecentEmoji(emoji, prev));
+    requestAnimationFrame(() => {
+      if (el) {
+        const newPos = pos + emoji.length;
+        el.setSelectionRange(newPos, newPos);
+        el.focus();
+      }
+    });
+  }, [postText]);
+
   const copyPost = useCallback(async () => {
+    if (!postText) return;
     try {
       await navigator.clipboard.writeText(postText);
     } catch {
@@ -76,111 +64,151 @@ export default function EmojiAdderTool() {
       document.execCommand('copy');
       document.body.removeChild(el);
     }
-    setCopiedEmoji('__post__');
-    setTimeout(() => setCopiedEmoji(null), 2000);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   }, [postText]);
 
-  const currentEmojis = EMOJI_CATEGORIES.find((c) => c.id === activeCategory)?.emojis ?? [];
+  const charCount = postText.length;
+  const overLimit = charCount > 3000;
+  const progressPct = Math.min((charCount / 3000) * 100, 100);
+  const progressColor = overLimit
+    ? 'var(--color-error)'
+    : charCount > 2700
+      ? 'var(--color-warning)'
+      : 'var(--color-ink)';
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Category tabs */}
-      <div>
-        <p className="text-body-sm-strong text-[var(--color-ink)] mb-3">Emoji category</p>
-        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Emoji categories">
-          {EMOJI_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveCategory(cat.id)}
-              role="tab"
-              aria-selected={activeCategory === cat.id}
-              className={`px-4 py-2 rounded-full border text-body-sm transition-all ${
-                activeCategory === cat.id
-                  ? 'bg-[var(--color-ink)] text-white border-[var(--color-ink)]'
-                  : 'bg-[var(--color-canvas)] text-[var(--color-body)] border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Recent emojis */}
-      {recentEmojis.length > 0 && (
-        <div>
-          <p className="text-caption text-[var(--color-mute)] mb-2">Recently used</p>
-          <div className="flex flex-wrap gap-2">
-            {recentEmojis.map((emoji) => (
-              <button
-                key={`recent-${emoji}`}
-                onClick={() => insertEmoji(emoji)}
-                onContextMenu={(e) => { e.preventDefault(); copyEmoji(emoji); }}
-                className="text-2xl p-2 rounded-[var(--radius-sm)] hover:bg-[var(--color-canvas-soft-2)] transition-colors leading-none"
-                title={`Insert ${emoji} (right-click to copy)`}
-                aria-label={`Insert emoji ${emoji}`}
-              >
-                {emoji}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Emoji grid */}
+      {/* Layout: emoji picker left + composer right on large screens */}
       <div
-        role="tabpanel"
-        aria-label={EMOJI_CATEGORIES.find((c) => c.id === activeCategory)?.label}
+        className="rounded-[var(--radius-md)] border border-[var(--color-hairline)] overflow-hidden grid grid-cols-1 lg:grid-cols-[380px_1fr]"
+        style={{ boxShadow: 'var(--shadow-card-lg)' }}
       >
-        <p className="text-caption text-[var(--color-mute)] mb-3">
-          Click to insert into post · Right-click to copy emoji only
-        </p>
-        <div className="grid grid-cols-8 sm:grid-cols-10 gap-1 rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] p-4">
-          {currentEmojis.map((emoji) => (
-            <button
-              key={emoji}
-              onClick={() => insertEmoji(emoji)}
-              onContextMenu={(e) => { e.preventDefault(); copyEmoji(emoji); }}
-              className={`relative text-2xl p-2 rounded-[var(--radius-sm)] transition-all leading-none aspect-square flex items-center justify-center hover:bg-[var(--color-canvas-soft-2)] hover:scale-110 ${
-                copiedEmoji === emoji ? 'bg-[var(--color-link-bg-soft)] scale-110' : ''
-              }`}
-              title={`Insert ${emoji}`}
-              aria-label={`Insert emoji ${emoji}`}
-            >
-              {emoji}
-            </button>
-          ))}
-        </div>
-      </div>
+        {/* ── Left: Emoji Picker ── */}
+        <div className="border-b lg:border-b-0 lg:border-r border-[var(--color-hairline)] bg-[var(--color-canvas)] flex flex-col">
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-[var(--color-hairline)] bg-[var(--color-canvas-soft)]">
+            <p className="text-body-sm-strong text-[var(--color-ink)]">Emoji picker</p>
+            <p className="text-caption text-[var(--color-mute)] mt-0.5">
+              Click an emoji to insert it at the cursor
+            </p>
+          </div>
 
-      {/* Post composer */}
-      <div>
-        <div className="flex items-center justify-between mb-2">
-          <label htmlFor="emoji-post" className="text-body-sm-strong text-[var(--color-ink)]">
-            Your post
-          </label>
-          {postText && (
+          {/* Picker */}
+          <EmojiPicker
+            onSelect={insertEmoji}
+            recentEmojis={recentEmojis}
+          />
+        </div>
+
+        {/* ── Right: Post Composer ── */}
+        <div className="flex flex-col bg-[var(--color-canvas)]">
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] flex items-center justify-between gap-2">
+            <div>
+              <p className="text-body-sm-strong text-[var(--color-ink)]">Your post</p>
+              <p className="text-caption text-[var(--color-mute)] mt-0.5">
+                Type or paste your text, then click emojis to insert
+              </p>
+            </div>
+            {postText && (
+              <button
+                onClick={() => {
+                  setPostText('');
+                  textareaRef.current?.focus();
+                }}
+                title="Clear post"
+                aria-label="Clear post"
+                className="shrink-0 flex items-center gap-1.5 text-caption px-2.5 py-1.5 rounded-[var(--radius-xs)] text-[var(--color-mute)] hover:text-[var(--color-error)] hover:bg-[var(--color-canvas-soft-2)] transition-colors"
+              >
+                <IconTrash />
+                Clear
+              </button>
+            )}
+          </div>
+
+          {/* Textarea */}
+          <textarea
+            ref={textareaRef}
+            id="emoji-adder-post"
+            value={postText}
+            onChange={e => setPostText(e.target.value)}
+            placeholder="Write or paste your LinkedIn post here. Click emojis on the left to insert them at the cursor position."
+            className="flex-1 w-full min-h-[260px] bg-[var(--color-canvas)] text-[var(--color-ink)] text-body-sm px-4 py-4 resize-none focus:outline-none placeholder:text-[var(--color-mute)] leading-relaxed"
+            aria-label="Post content"
+            aria-describedby="emoji-char-count"
+          />
+
+          {/* Character count + progress */}
+          <div
+            id="emoji-char-count"
+            className="border-t border-[var(--color-hairline)] bg-[var(--color-canvas-soft)]"
+          >
+            <div className="h-0.5 bg-[var(--color-hairline)]" aria-hidden="true">
+              <div
+                className="h-full transition-all duration-300"
+                style={{ width: `${progressPct}%`, backgroundColor: progressColor }}
+              />
+            </div>
+            <div className="flex items-center justify-between px-4 py-2.5">
+              <span
+                className={`text-caption ${overLimit ? 'text-[var(--color-error)] font-medium' : 'text-[var(--color-mute)]'}`}
+              >
+                {charCount.toLocaleString()} / 3,000 characters
+                {overLimit && ' — over limit'}
+              </span>
+              <span className="text-caption text-[var(--color-mute)]">
+                LinkedIn limit: 3,000 chars
+              </span>
+            </div>
+          </div>
+
+          {/* Copy button */}
+          <div className="px-4 py-3 border-t border-[var(--color-hairline)]">
             <button
               onClick={copyPost}
-              className={`flex items-center gap-1.5 text-body-sm-strong px-3 py-1 rounded-[var(--radius-sm)] transition-all ${
-                copiedEmoji === '__post__'
-                  ? 'text-[var(--color-success)] bg-[var(--color-success-soft)]'
-                  : 'text-[var(--color-ink)] hover:bg-[var(--color-canvas-soft-2)]'
+              disabled={!postText}
+              aria-live="polite"
+              className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-[var(--radius-sm)] text-body-sm-strong transition-all ${
+                !postText
+                  ? 'bg-[var(--color-canvas-soft-2)] text-[var(--color-mute)] cursor-not-allowed'
+                  : copied
+                    ? 'bg-[var(--color-success)] text-white'
+                    : 'bg-[var(--color-ink)] text-white hover:opacity-90 active:opacity-80'
               }`}
             >
-              {copiedEmoji === '__post__' ? '✓ Copied!' : 'Copy post'}
+              {copied ? (
+                <>
+                  <IconCheck />
+                  Copied to clipboard!
+                </>
+              ) : (
+                <>
+                  <IconCopy />
+                  Copy post text
+                </>
+              )}
             </button>
-          )}
+          </div>
         </div>
-        <textarea
-          id="emoji-post"
-          value={postText}
-          onChange={(e) => setPostText(e.target.value)}
-          placeholder="Emojis will be inserted here. You can also type your post directly."
-          rows={6}
-          className="w-full rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas)] text-[var(--color-ink)] text-body-md px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-[var(--color-ink)] placeholder:text-[var(--color-mute)]"
-        />
-        <p className="text-caption text-[var(--color-mute)] mt-1.5">{postText.length} characters</p>
+      </div>
+
+      {/* Tips */}
+      <div className="rounded-[var(--radius-md)] border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] px-4 py-3">
+        <p className="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-2" style={{ fontSize: '10px' }}>Tips</p>
+        <ul className="flex flex-col gap-1.5">
+          {[
+            'Click any emoji to insert it at your cursor position in the post.',
+            'Use the search bar to find emojis by name (e.g. "fire", "heart", "rocket").',
+            'Recently used emojis appear in the 🕐 tab for quick access.',
+            'Paste your existing LinkedIn draft and enrich it with emojis.',
+          ].map((tip, i) => (
+            <li key={i} className="flex items-start gap-2 text-caption text-[var(--color-body)]">
+              <span className="shrink-0 mt-px text-[var(--color-mute)]">·</span>
+              {tip}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

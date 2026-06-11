@@ -7,6 +7,8 @@ import {
   IconGlobe,
   LinkedInReactionBar,
 } from './LinkedInPostMock';
+import EmojiPicker from './EmojiPicker';
+import { loadRecentEmojis, saveRecentEmoji } from '../../lib/tools/emoji-data';
 
 async function fetchAIHooks(content: string): Promise<string[]> {
   const res = await fetch('/api/ai', {
@@ -28,33 +30,6 @@ type StyleKey = Parameters<typeof formatText>[1];
 const MAX_CHARS = 3000;
 const DRAFT_KEY = 'linkedin-toolkit:text-formatter-draft';
 
-const EMOJI_CATEGORIES = [
-  {
-    id: 'bullets',
-    label: 'Bullets',
-    emojis: ['▶️', '▸', '◆', '◇', '•', '✅', '☑️', '✔️', '➡️', '🔹', '🔸', '💠', '🔘', '📌', '📍'],
-  },
-  {
-    id: 'positive',
-    label: 'Motivation',
-    emojis: ['🚀', '💡', '⭐', '🌟', '✨', '🎯', '🏆', '🎉', '💪', '🙌', '👏', '🤝', '❤️', '🔥', '⚡'],
-  },
-  {
-    id: 'business',
-    label: 'Business',
-    emojis: ['💼', '📊', '📈', '📉', '💰', '🏢', '🤝', '📋', '🗓️', '⏰', '📧', '💻', '🖥️', '📱', '🔑'],
-  },
-  {
-    id: 'education',
-    label: 'Learning',
-    emojis: ['📚', '📖', '🎓', '✏️', '📝', '💭', '🧠', '🔬', '💡', '🌱', '📘', '📗', '📙', '🏫', '🎒'],
-  },
-  {
-    id: 'actions',
-    label: 'Actions',
-    emojis: ['👇', '👆', '👉', '👈', '⬇️', '⬆️', '➕', '➖', '❓', '❗', '‼️', '⚠️', '🔔', '📢', '💬'],
-  },
-];
 
 const TOOLBAR_FORMATS: Array<{ key: StyleKey; label: string; glyph: string }> = [
   { key: 'bold', label: 'Bold', glyph: '𝐁' },
@@ -137,7 +112,6 @@ export default function TextFormatterTool() {
   const [isTruncated, setIsTruncated] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [activeEmojiCategory, setActiveEmojiCategory] = useState('bullets');
   const [recentEmojis, setRecentEmojis] = useState<string[]>([]);
   const [copiedStyleKey, setCopiedStyleKey] = useState<string | null>(null);
 
@@ -175,6 +149,7 @@ export default function TextFormatterTool() {
     } catch {
       // localStorage unavailable (e.g. private browsing) — ignore
     }
+    setRecentEmojis(loadRecentEmojis());
   }, []);
 
   // Auto-save draft to localStorage (debounced)
@@ -336,10 +311,7 @@ export default function TextFormatterTool() {
     const newText = text.slice(0, pos) + emoji + text.slice(pos);
     setText(newText);
     pushHistory(newText);
-    setRecentEmojis(prev => {
-      const filtered = prev.filter(e => e !== emoji);
-      return [emoji, ...filtered].slice(0, 15);
-    });
+    setRecentEmojis(prev => saveRecentEmoji(emoji, prev));
     requestAnimationFrame(() => {
       if (el) {
         const newPos = pos + emoji.length;
@@ -435,15 +407,6 @@ export default function TextFormatterTool() {
     setText(newText);
     pushHistory(newText);
   }
-
-  const emojiCategoriesWithRecent =
-    recentEmojis.length > 0
-      ? [{ id: 'recent', label: 'Recent', emojis: recentEmojis }, ...EMOJI_CATEGORIES]
-      : EMOJI_CATEGORIES;
-
-  const currentEmojis =
-    emojiCategoriesWithRecent.find(c => c.id === activeEmojiCategory)?.emojis ??
-    EMOJI_CATEGORIES[0].emojis;
 
   // Progress bar width for char count (capped at 100%)
   const progressPct = Math.min((charCount / MAX_CHARS) * 100, 100);
@@ -575,42 +538,11 @@ export default function TextFormatterTool() {
               ref={emojiPickerRef}
               className="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]"
             >
-              {/* Category tabs */}
-              <div className="flex items-center gap-1 px-3 pt-2.5 pb-2 overflow-x-auto" role="tablist" aria-label="Emoji categories">
-                {emojiCategoriesWithRecent.map(cat => (
-                  <button
-                    key={cat.id}
-                    role="tab"
-                    aria-selected={activeEmojiCategory === cat.id}
-                    onClick={() => setActiveEmojiCategory(cat.id)}
-                    className={`shrink-0 px-2.5 py-1 rounded-full text-caption transition-all ${
-                      activeEmojiCategory === cat.id
-                        ? 'bg-[var(--color-ink)] text-white'
-                        : 'bg-[var(--color-canvas-soft-2)] text-[var(--color-body)] hover:text-[var(--color-ink)]'
-                    }`}
-                  >
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-              {/* Emoji grid */}
-              <div
-                role="tabpanel"
-                aria-label={emojiCategoriesWithRecent.find(c => c.id === activeEmojiCategory)?.label}
-                className="grid grid-cols-10 sm:grid-cols-12 gap-0.5 px-3 pb-3"
-              >
-                {currentEmojis.map((emoji, i) => (
-                  <button
-                    key={`${emoji}-${i}`}
-                    onClick={() => insertEmoji(emoji)}
-                    title={`Insert ${emoji}`}
-                    aria-label={`Insert ${emoji}`}
-                    className="text-xl py-1.5 rounded-[var(--radius-xs)] hover:bg-[var(--color-canvas-soft-2)] hover:scale-110 transition-all leading-none aspect-square flex items-center justify-center"
-                  >
-                    {emoji}
-                  </button>
-                ))}
-              </div>
+              <EmojiPicker
+                onSelect={insertEmoji}
+                recentEmojis={recentEmojis}
+                compact
+              />
             </div>
           )}
 
