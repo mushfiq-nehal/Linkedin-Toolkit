@@ -4,7 +4,7 @@ import type { APIRoute } from 'astro';
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
-type Task = 'hashtags' | 'hooks' | 'headline';
+type Task = 'hashtags' | 'hooks' | 'headline' | 'about';
 
 const PROMPTS: Record<Task, (content: string) => string> = {
   hashtags: (content) => `You are a LinkedIn growth expert. Given the following LinkedIn post, suggest exactly 8 highly relevant hashtags.
@@ -41,6 +41,21 @@ Rules:
 - Return ONLY the 3 headlines, numbered 1. 2. 3. — no explanations
 
 Current headline:
+${content}`,
+
+  about: (content) => `You are a LinkedIn profile optimization expert. Write a professional LinkedIn About section based on the user's input.
+
+Rules:
+- Write in first person ("I")
+- Opening hook: first 300 characters must grab attention (visible without "see more")
+- Include: what they do, key achievements with specifics, background, current focus, and a CTA for connections
+- Use specific, quantified results wherever possible — avoid generic claims
+- Stay under 2,600 characters
+- Keep paragraphs short (2-3 sentences each) for readability
+- Include industry-relevant keywords naturally
+- Return ONLY the About section text, nothing else
+
+Context provided by the user:
 ${content}`,
 };
 

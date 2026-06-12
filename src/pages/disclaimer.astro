@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Disclaimer | LinkedIn Toolkit"
+  description="Official disclaimer for LinkedIn Toolkit regarding trademark and independence from LinkedIn Corporation."
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Disclaimer', url: '/disclaimer/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Legal</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Disclaimer
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        Official disclaimer regarding our independence and trademark notices.
+      </p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-[var(--color-canvas-soft)] min-h-[50vh]">
+    <div class="wrap-page py-16">
+      <div class="max-w-2xl bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+        <div class="flex flex-col gap-6 text-body-md text-[var(--color-body)] leading-relaxed">
+          <p>
+            <strong>LinkedIn Toolkit</strong> is an independent website and is not affiliated with, endorsed by, or sponsored by LinkedIn Corporation.
+          </p>
+          <p>
+            LinkedIn® is a registered trademark of LinkedIn Corporation and/or its affiliates in the United States and other countries.
+          </p>
+          <p>
+            All product names, logos, and brands are the property of their respective owners.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

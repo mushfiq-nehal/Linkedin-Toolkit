@@ -305,7 +305,7 @@ export function LinkedInReactionBar() {
         <span>24 comments · 6 reposts</span>
       </div>
 
-      <div className="flex items-center justify-around mt-2 pt-2" style={{ borderTop: '1px solid #f3f4f6' }}>
+      <div className="flex items-center mt-2 pt-2" style={{ borderTop: '1px solid #f3f4f6' }}>
         {[
           { label: 'Like', icon: <IconLike /> },
           { label: 'Comment', icon: <IconComment /> },
@@ -314,13 +314,13 @@ export function LinkedInReactionBar() {
         ].map(({ label, icon }) => (
           <button
             key={label}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded hover:bg-gray-100 transition-colors"
+            className="flex flex-1 items-center justify-center gap-1 py-1.5 rounded hover:bg-gray-100 transition-colors min-w-0"
             style={{ fontSize: '13px', fontWeight: 600, color: '#6b7280' }}
             aria-label={`${label} (preview only)`}
             tabIndex={-1}
           >
             {icon}
-            {label}
+            <span className="truncate">{label}</span>
           </button>
         ))}
       </div>

@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { formatText, unformatText, STYLES } from '../../lib/tools/text-formatter';
 import {
   LI_FONT,
@@ -129,6 +130,8 @@ export default function TextFormatterTool() {
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const emojiPickerRef = useRef<HTMLDivElement>(null);
+  const emojiButtonRef = useRef<HTMLButtonElement>(null);
+  const [pickerPos, setPickerPos] = useState<{ top: number; left: number } | null>(null);
 
   // Undo / redo history — stored in refs to avoid stale closures
   const historyRef = useRef<string[]>(['']);
@@ -198,17 +201,60 @@ export default function TextFormatterTool() {
   const charCount = text.length;
   const overLimit = charCount > MAX_CHARS;
 
-  // Close emoji picker when clicking outside
+  // Calculate picker position anchored to the emoji button
+  const updatePickerPos = useCallback(() => {
+    if (!emojiButtonRef.current) return;
+    const PICKER_W = 340;
+    const PICKER_H = 390;
+    const GAP = 6;
+    const rect = emojiButtonRef.current.getBoundingClientRect();
+    let top = rect.bottom + GAP;
+    let left = rect.left;
+    // Flip upward if not enough space below
+    if (top + PICKER_H > window.innerHeight - 8) {
+      top = rect.top - PICKER_H - GAP;
+    }
+    // Clamp horizontally inside viewport
+    if (left + PICKER_W > window.innerWidth - 8) {
+      left = window.innerWidth - PICKER_W - 8;
+    }
+    if (left < 8) left = 8;
+    setPickerPos({ top, left });
+  }, []);
+
+  // Open/close: compute position, attach outside-click, Escape, scroll listeners
   useEffect(() => {
-    if (!showEmojiPicker) return;
-    const handler = (e: MouseEvent) => {
-      if (emojiPickerRef.current && !emojiPickerRef.current.contains(e.target as Node)) {
-        setShowEmojiPicker(false);
-      }
+    if (!showEmojiPicker) {
+      setPickerPos(null);
+      return;
+    }
+    updatePickerPos();
+    const onMouseDown = (e: MouseEvent) => {
+      const target = e.target as Node;
+      const insidePicker = emojiPickerRef.current?.contains(target);
+      const insideButton = emojiButtonRef.current?.contains(target);
+      if (!insidePicker && !insideButton) setShowEmojiPicker(false);
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, [showEmojiPicker]);
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setShowEmojiPicker(false);
+    };
+    const onScroll = (e: Event) => {
+      // Don't close when scrolling inside the picker itself
+      if (emojiPickerRef.current?.contains(e.target as Node)) return;
+      setShowEmojiPicker(false);
+    };
+    const onResize = () => updatePickerPos();
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('keydown', onKeyDown);
+    window.addEventListener('scroll', onScroll, { capture: true, passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown);
+      document.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('scroll', onScroll, { capture: true });
+      window.removeEventListener('resize', onResize);
+    };
+  }, [showEmojiPicker, updatePickerPos]);
 
   function applyFormat(style: StyleKey) {
     const el = textareaRef.current;
@@ -481,13 +527,15 @@ export default function TextFormatterTool() {
 
             {/* Emoji picker trigger */}
             <button
+              ref={emojiButtonRef}
               onClick={() => setShowEmojiPicker(v => !v)}
               title="Insert emoji"
               aria-label="Toggle emoji picker"
               aria-expanded={showEmojiPicker}
+              aria-haspopup="dialog"
               className={`flex items-center justify-center w-8 h-8 rounded-[var(--radius-xs)] transition-colors text-[15px] leading-none ${
                 showEmojiPicker
-                  ? 'bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]'
+                  ? 'bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)] ring-1 ring-[var(--color-hairline-strong)]'
                   : 'text-[var(--color-body)] hover:bg-[var(--color-canvas-soft-2)] hover:text-[var(--color-ink)]'
               }`}
             >
@@ -532,18 +580,32 @@ export default function TextFormatterTool() {
             </span>
           </div>
 
-          {/* Emoji picker panel */}
-          {showEmojiPicker && (
+          {/* Floating emoji picker — rendered via portal so it overlays without pushing content */}
+          {showEmojiPicker && pickerPos && createPortal(
             <div
               ref={emojiPickerRef}
-              className="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)]"
+              role="dialog"
+              aria-label="Emoji picker"
+              style={{
+                position: 'fixed',
+                top: pickerPos.top,
+                left: pickerPos.left,
+                width: 340,
+                zIndex: 9999,
+                boxShadow: 'var(--shadow-modal)',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--color-hairline)',
+                background: 'var(--color-canvas)',
+                overflow: 'hidden',
+              }}
             >
               <EmojiPicker
                 onSelect={insertEmoji}
                 recentEmojis={recentEmojis}
                 compact
               />
-            </div>
+            </div>,
+            document.body
           )}
 
           {/* Textarea */}
