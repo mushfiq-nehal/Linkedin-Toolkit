@@ -11,7 +11,7 @@ export interface Props {
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
-  schema?: object;
+  schema?: object | object[];
   breadcrumbs?: Array<{ name: string; url: string }>;
   class?: string;
 }

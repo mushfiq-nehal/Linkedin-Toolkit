@@ -6,7 +6,7 @@ export interface Props {
   ogImage?: string;
   ogType?: 'website' | 'article';
   noindex?: boolean;
-  schema?: object;
+  schema?: object | object[];
   breadcrumbs?: Array<{ name: string; url: string }>;
 }
 
@@ -72,6 +72,7 @@ const breadcrumbSchema = breadcrumbs
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@linkedintoolkit" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
@@ -88,8 +89,8 @@ const breadcrumbSchema = breadcrumbs
   rel="stylesheet"
 />
 
-<!-- Structured Data: Website -->
-<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+<!-- Structured Data: Website (only when no custom schema is provided) -->
+{!schema && <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />}
 
 <!-- Structured Data: Breadcrumbs -->
 {breadcrumbSchema && (
@@ -98,5 +99,7 @@ const breadcrumbSchema = breadcrumbs
 
 <!-- Structured Data: Custom -->
 {schema && (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  Array.isArray(schema)
+    ? schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)
+    : <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 )}
