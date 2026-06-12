@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/sections/Hero.astro';
+import HeroWithFormatter from '../components/sections/HeroWithFormatter.astro';
 import FeaturedTools from '../components/sections/FeaturedTools.astro';
 import Benefits from '../components/sections/Benefits.astro';
 import HowItWorks from '../components/sections/HowItWorks.astro';
@@ -75,13 +75,7 @@ const websiteSchema = {
   schema={websiteSchema}
   breadcrumbs={[{ name: 'Home', url: '/' }]}
 >
-  <Hero
-    headline="Free LinkedIn tools that work."
-    subheadline="Format posts, analyze headlines, preview content, and build your LinkedIn presence. Every tool is free, instant, and works without an account."
-    primaryCTA={{ label: 'Browse all tools', href: '/tools/' }}
-    secondaryCTA={{ label: 'Text Formatter', href: '/linkedin-text-formatter/' }}
-    badge="8 free tools available"
-  />
+  <HeroWithFormatter />
 
   <FeaturedTools tools={tools} />
 

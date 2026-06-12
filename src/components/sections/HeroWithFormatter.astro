@@ -1,0 +1,63 @@
+---
+import TextFormatterTool from '../tools/TextFormatterTool';
+---
+
+<section
+  class="relative overflow-hidden bg-[var(--color-canvas)] border-b border-[var(--color-hairline)]"
+  aria-label="LinkedIn Text Formatter — Free tool"
+>
+  <!-- Subtle dot-grid background -->
+  <div
+    class="pointer-events-none absolute inset-0"
+    aria-hidden="true"
+    style="background-image: radial-gradient(circle at 1px 1px, var(--color-hairline) 1px, transparent 0); background-size: 32px 32px; opacity: 0.5;"
+  ></div>
+  <!-- Fade from grid to canvas at the bottom -->
+  <div
+    class="pointer-events-none absolute bottom-0 left-0 right-0 h-40"
+    aria-hidden="true"
+    style="background: linear-gradient(to bottom, transparent, var(--color-canvas));"
+  ></div>
+
+  <div class="wrap-page relative pt-14 pb-14 sm:pt-20 sm:pb-16">
+    <!-- ── Top: compact headline ── -->
+    <div class="max-w-3xl mb-8 sm:mb-10">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 mb-5">
+        <span class="inline-flex items-center gap-1.5 text-caption text-[var(--color-body)] bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] rounded-full px-3 py-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-success)] inline-block" aria-hidden="true"></span>
+          Most-used tool · Free · No account needed
+        </span>
+      </div>
+
+      <!-- H1 -->
+      <h1 class="text-display-xl text-[var(--color-ink)] mb-4 sm:text-[52px] sm:leading-[52px] sm:tracking-[-2.6px]">
+        LinkedIn Text Formatter.
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-2xl">
+        Write your post below, select any text, and apply <strong class="text-[var(--color-ink)] font-medium">bold</strong>, <em>italic</em>, lists, and emojis. Copy the result straight into LinkedIn.
+      </p>
+    </div>
+
+    <!-- ── The actual tool ── -->
+    <div class="relative z-10">
+      <TextFormatterTool client:load />
+    </div>
+
+    <!-- ── Explore more link ── -->
+    <div class="mt-8 flex items-center gap-4">
+      <a href="/tools/" class="btn-secondary px-5 h-10 text-[15px]">
+        Browse all 8 tools
+      </a>
+      <a
+        href="/linkedin-text-formatter/"
+        class="inline-flex items-center gap-1.5 text-body-sm text-[var(--color-mute)] hover:text-[var(--color-ink)] transition-colors no-underline"
+      >
+        Open full-page view
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
