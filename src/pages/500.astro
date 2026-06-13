@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// For SSR mode: Astro passes an `error` prop automatically.
+// In static mode this page acts as a manual fallback at /500/
+interface Props {
+  error?: unknown;
+}
+const { error } = Astro.props;
+---
+
+<BaseLayout
+  title="500 — Server Error | LinkedIn Toolkit"
+  description="Something went wrong on our end. We're looking into it. Please try again or visit our homepage."
+  noindex={true}
+>
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-narrow py-20 md:py-28 w-full">
+
+      <!-- Error badge -->
+      <div class="flex items-center gap-2 mb-6">
+        <span class="inline-flex items-center gap-1.5 bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[var(--color-mute)] text-caption-mono uppercase tracking-wider px-3 py-1.5 rounded-[var(--radius-pill)]">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-warning)]"></span>
+          500 Error
+        </span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-display-xl text-[var(--color-ink)] mb-4 max-w-xl">
+        Something went wrong
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-lg mb-10">
+        An unexpected error occurred on our end. This is on us — please try refreshing the page, or come back in a moment.
+      </p>
+
+      <!-- Primary CTAs -->
+      <div class="flex flex-wrap gap-3 mb-14">
+        <button
+          id="refresh-btn"
+          class="btn-primary"
+          onclick="window.location.reload()"
+        >
+          ↻ Refresh page
+        </button>
+        <a href="/" class="btn-secondary">
+          Go to Homepage
+        </a>
+      </div>
+
+      <!-- What you can do -->
+      <div class="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-md)] shadow-[var(--shadow-card-md)] p-6 md:p-8 max-w-lg">
+        <h2 class="text-display-sm text-[var(--color-ink)] mb-4">What you can try</h2>
+        <ul class="flex flex-col gap-3">
+          <li class="flex items-start gap-3">
+            <span class="shrink-0 text-[var(--color-mute)] mt-0.5" aria-hidden="true">①</span>
+            <span class="text-body-md text-[var(--color-body)]">Refresh the page — the issue may be temporary.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="shrink-0 text-[var(--color-mute)] mt-0.5" aria-hidden="true">②</span>
+            <span class="text-body-md text-[var(--color-body)]">Clear your browser cache and try again.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="shrink-0 text-[var(--color-mute)] mt-0.5" aria-hidden="true">③</span>
+            <span class="text-body-md text-[var(--color-body)]">
+              <a href="/contact-us/" class="text-[var(--color-link)] hover:text-[var(--color-link-deep)] hover:underline">Let us know</a> so we can fix it.
+            </span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

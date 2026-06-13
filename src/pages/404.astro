@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tools = [
+  { name: 'LinkedIn Text Formatter', href: '/linkedin-text-formatter/', icon: '✦' },
+  { name: 'Post Preview', href: '/linkedin-post-preview/', icon: '◉' },
+  { name: 'Hashtag Generator', href: '/linkedin-hashtag-generator/', icon: '＃' },
+  { name: 'Headline Analyzer', href: '/linkedin-headline-analyzer/', icon: '◎' },
+];
+---
+
+<BaseLayout
+  title="404 — Page Not Found | LinkedIn Toolkit"
+  description="The page you're looking for doesn't exist. Explore our free LinkedIn tools to format text, generate hashtags, preview posts, and more."
+  noindex={true}
+>
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-narrow py-20 md:py-28 w-full">
+
+      <!-- Error badge -->
+      <div class="flex items-center gap-2 mb-6">
+        <span class="inline-flex items-center gap-1.5 bg-[var(--color-canvas)] border border-[var(--color-hairline)] text-[var(--color-mute)] text-caption-mono uppercase tracking-wider px-3 py-1.5 rounded-[var(--radius-pill)]">
+          <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-error)]"></span>
+          404 Error
+        </span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-display-xl text-[var(--color-ink)] mb-5 max-w-xl">
+        Page not found
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-lg mb-10">
+        The page you're looking for has been moved, deleted, or never existed. Let's get you back on track.
+      </p>
+
+      <!-- Primary CTAs -->
+      <div class="flex flex-wrap gap-3 mb-14">
+        <a href="/" class="btn-primary">
+          ← Back to Home
+        </a>
+        <a href="/contact-us/" class="btn-secondary">
+          Report a broken link
+        </a>
+      </div>
+
+      <!-- Divider with label -->
+      <div class="flex items-center gap-4 mb-8">
+        <div class="divider flex-1"></div>
+        <span class="text-caption text-[var(--color-mute)] uppercase tracking-wider whitespace-nowrap">Popular tools</span>
+        <div class="divider flex-1"></div>
+      </div>
+
+      <!-- Tool links -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {tools.map((tool) => (
+          <a
+            href={tool.href}
+            class="group flex items-center gap-3 p-4 bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-md)] hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-md)] transition-all no-underline"
+          >
+            <span class="shrink-0 text-lg text-[var(--color-ink)]" aria-hidden="true">{tool.icon}</span>
+            <span class="text-body-sm-strong text-[var(--color-ink)] group-hover:underline">{tool.name}</span>
+            <span class="ml-auto text-[var(--color-mute)] opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true">→</span>
+          </a>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
