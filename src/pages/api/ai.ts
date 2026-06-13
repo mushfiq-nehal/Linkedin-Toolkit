@@ -1,6 +1,10 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
+// Cloudflare Workers runtime env (Astro v6 / @astrojs/cloudflare v13+)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore — cloudflare:workers is provided by the CF Vite plugin at runtime
+import { env as cfEnv } from 'cloudflare:workers';
 
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 
@@ -60,8 +64,9 @@ ${content}`,
 };
 
 export const POST: APIRoute = async ({ request }) => {
-  const apiKey = import.meta.env.OPENROUTER_API_KEY;
-  const MODEL = import.meta.env.OPENROUTER_MODEL ?? 'nvidia/nemotron-3-ultra-550b-a55b:free';
+  const runtimeEnv = cfEnv as Record<string, string | undefined>;
+  const apiKey = runtimeEnv.OPENROUTER_API_KEY ?? import.meta.env.OPENROUTER_API_KEY;
+  const MODEL = runtimeEnv.OPENROUTER_MODEL ?? import.meta.env.OPENROUTER_MODEL ?? 'mistralai/mistral-nemo';
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'OPENROUTER_API_KEY is not configured.' }), {
       status: 500,
@@ -99,7 +104,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 40_000);
+    const timeout = setTimeout(() => controller.abort(), 25_000);
 
     let res: Response;
     try {
@@ -144,7 +149,7 @@ export const POST: APIRoute = async ({ request }) => {
   } catch (err) {
     const isTimeout = err instanceof Error && err.name === 'AbortError';
     const message = isTimeout
-      ? 'Request timed out (20 s). The model may be busy — try again in a moment.'
+      ? 'Request timed out. The model may be busy — try again in a moment.'
       : err instanceof Error ? err.message : 'Unknown error';
     return new Response(JSON.stringify({ error: message }), {
       status: isTimeout ? 504 : 500,

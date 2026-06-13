@@ -1,4 +1,39 @@
+# -----------------------------------------------
+# robots.txt — linkedintoolkit.com
+# -----------------------------------------------
+
+# All crawlers: allow everything except API routes
 User-agent: *
+Disallow: /api/
 Allow: /
 
+# Block AI training bots
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+# Sitemap
 Sitemap: https://linkedintoolkit.com/sitemap.xml
