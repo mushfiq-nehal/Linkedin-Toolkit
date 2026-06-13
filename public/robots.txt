@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://linkedintoolkit.com/sitemap-index.xml
+Sitemap: https://linkedintoolkit.com/sitemap.xml

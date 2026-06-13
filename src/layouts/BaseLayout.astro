@@ -43,6 +43,14 @@ const {
       breadcrumbs={breadcrumbs}
     />
     <slot name="head" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TWE5EYFR3F"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TWE5EYFR3F');
+    </script>
   </head>
   <body class={className}>
     <Navbar />
