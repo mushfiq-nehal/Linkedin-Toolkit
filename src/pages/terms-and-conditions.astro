@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = 'June 13, 2026';
+---
+
+<BaseLayout
+  title="Terms & Conditions | LinkedIn Toolkit"
+  description="Read the terms and conditions for using LinkedIn Toolkit's free tools. Understand your rights, our limitations, and the rules governing use of this site."
+  canonical="https://linkedintoolkit.com/terms-and-conditions/"
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Terms & Conditions', url: '/terms-and-conditions/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Legal</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Terms &amp; Conditions
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        Please read these terms carefully before using LinkedIn Toolkit's tools and services.
+      </p>
+      <p class="text-caption text-[var(--color-mute)] mt-4">Last updated: {lastUpdated}</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-[var(--color-canvas-soft)] min-h-[50vh]">
+    <div class="wrap-page py-16">
+      <div class="max-w-2xl flex flex-col gap-10">
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">1. Acceptance of Terms</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              By accessing or using <strong>linkedintoolkit.com</strong> ("the Site"), you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, please do not use the Site.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">2. Description of Service</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              LinkedIn Toolkit provides a free collection of browser-based tools designed to help professionals improve their LinkedIn presence. These tools include, but are not limited to, a text formatter, character counter, headline analyzer, and hashtag generator.
+            </p>
+            <p>
+              All tools operate locally in your browser. We do not store, transmit, or process content that you enter into our tools on our servers.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">3. Intellectual Property</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              All content on this Site — including code, design, text, and graphics — is the intellectual property of LinkedIn Toolkit unless otherwise stated. You may not reproduce, distribute, or create derivative works without our express written permission.
+            </p>
+            <p>
+              LinkedIn® is a registered trademark of LinkedIn Corporation. LinkedIn Toolkit is not affiliated with or endorsed by LinkedIn Corporation. All trademarks remain the property of their respective owners.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">4. Permitted Use</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>You may use the Site for lawful, personal, and professional purposes. You agree <strong>not</strong> to:</p>
+            <ul class="list-none flex flex-col gap-3 pl-0">
+              {[
+                'Use the Site for any unlawful or fraudulent purpose',
+                'Attempt to gain unauthorized access to any part of the Site or its systems',
+                'Scrape, crawl, or automate access to the Site in a way that disrupts service',
+                'Use the tools to generate content that is harmful, defamatory, or violates third-party rights',
+                'Reverse engineer or copy any portion of the Site without permission',
+              ].map((item) => (
+                <li class="flex gap-3">
+                  <span class="mt-1 h-5 w-5 shrink-0 flex items-center justify-center rounded-full bg-[var(--color-error-soft)] text-[var(--color-error)]">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 2L8 8M8 2L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">5. Disclaimer of Warranties</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              The Site and its tools are provided <strong>"as is"</strong> without warranty of any kind, either express or implied. We do not warrant that the Site will be error-free, uninterrupted, or free of viruses or other harmful components.
+            </p>
+            <p>
+              Results produced by our tools (such as headline scores or hashtag suggestions) are provided for informational purposes only and do not guarantee any particular outcome on LinkedIn.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">6. Limitation of Liability</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              To the fullest extent permitted by law, LinkedIn Toolkit shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Site or its tools, even if we have been advised of the possibility of such damages.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">7. Third-Party Links</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              The Site may contain links to third-party websites. These links are provided for convenience only. We have no control over the content of those sites and accept no responsibility for them or for any loss or damage that may arise from your use of them.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">8. Governing Law</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              These Terms shall be governed by and construed in accordance with applicable laws. Any disputes relating to these terms shall be subject to the exclusive jurisdiction of the relevant courts.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">9. Changes to These Terms</h2>
+          <div class="text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              We reserve the right to update these Terms at any time. The "last updated" date will reflect any changes. Continued use of the Site after changes constitutes your acceptance of the revised terms. If you have questions, please <a href="/contact-us/" class="text-[var(--color-link)] hover:text-[var(--color-link-deep)] underline">contact us</a>.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>

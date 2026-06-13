@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lastUpdated = 'June 13, 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy | LinkedIn Toolkit"
+  description="LinkedIn Toolkit's privacy policy — learn how we handle your data, what we collect, and how we protect your privacy when using our free LinkedIn tools."
+  canonical="https://linkedintoolkit.com/privacy-policy/"
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Privacy Policy', url: '/privacy-policy/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Legal</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Privacy Policy
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        We respect your privacy. Here's exactly what data we collect, why, and how we protect it.
+      </p>
+      <p class="text-caption text-[var(--color-mute)] mt-4">Last updated: {lastUpdated}</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-[var(--color-canvas-soft)] min-h-[50vh]">
+    <div class="wrap-page py-16">
+      <div class="max-w-2xl flex flex-col gap-10">
+
+        <!-- Section -->
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">1. Overview</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              LinkedIn Toolkit ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you visit <strong>linkedintoolkit.com</strong> and use our free tools.
+            </p>
+            <p>
+              All tools on this site — including the text formatter, character counter, and headline analyzer — run entirely in your browser. We do not store any content you type or generate on our servers.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">2. Information We Collect</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>We collect minimal information to operate and improve the site:</p>
+            <ul class="list-none flex flex-col gap-3 pl-0">
+              <li class="flex gap-3">
+                <span class="mt-1 h-5 w-5 shrink-0 flex items-center justify-center rounded-full bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span><strong>Usage analytics:</strong> Page views, referrer URLs, device type, and general geographic region via Google Analytics. This data is anonymized and does not personally identify you.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-1 h-5 w-5 shrink-0 flex items-center justify-center rounded-full bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span><strong>Contact form submissions:</strong> If you reach out via our contact page, we receive your name, email, and message.</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-1 h-5 w-5 shrink-0 flex items-center justify-center rounded-full bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4.5 7.5L8 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span><strong>Tool input data:</strong> Text entered into our tools is processed locally in your browser and is <strong>never sent to our servers</strong>.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">3. Cookies</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              We use cookies solely for analytics purposes (Google Analytics). These cookies help us understand how visitors use the site so we can improve it. No advertising or tracking cookies are used.
+            </p>
+            <p>
+              You can opt out of Google Analytics tracking by installing the <a href="https://tools.google.com/dlpage/gaoptout" class="text-[var(--color-link)] hover:text-[var(--color-link-deep)] underline" target="_blank" rel="noopener noreferrer">Google Analytics Opt-out Browser Add-on</a>.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">4. Third-Party Services</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>We use the following third-party services:</p>
+            <ul class="list-none flex flex-col gap-2 pl-0">
+              <li class="flex gap-3 text-body-sm">
+                <span class="font-medium text-[var(--color-ink)] min-w-[140px]">Google Analytics</span>
+                <span class="text-[var(--color-body)]">Anonymous site usage statistics</span>
+              </li>
+              <li class="flex gap-3 text-body-sm">
+                <span class="font-medium text-[var(--color-ink)] min-w-[140px]">Cloudflare</span>
+                <span class="text-[var(--color-body)]">Content delivery and DDoS protection</span>
+              </li>
+            </ul>
+            <p>Each of these services has its own privacy policy governing their data practices.</p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">5. Data Retention & Security</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              Analytics data is retained for 14 months per Google Analytics default settings. Contact form submissions are retained only as long as needed to respond to your inquiry.
+            </p>
+            <p>
+              We implement industry-standard security measures and serve all traffic over HTTPS to protect data in transit.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">6. Your Rights</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              Depending on your location, you may have rights to access, correct, or delete personal data we hold about you. To exercise these rights or ask questions about this policy, please <a href="/contact-us/" class="text-[var(--color-link)] hover:text-[var(--color-link-deep)] underline">contact us</a>.
+            </p>
+          </div>
+        </section>
+
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">7. Changes to This Policy</h2>
+          <div class="text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              We may update this Privacy Policy from time to time. The "last updated" date at the top of this page will reflect any changes. Continued use of the site after updates constitutes acceptance of the new policy.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -38,7 +38,7 @@ const faqSchema = {
         {items.map((item, i) => (
           <div class:list={['border-t border-[var(--color-hairline)]', i === items.length - 1 ? 'border-b' : '']}>
             <details class="group py-5">
-              <summary class="flex items-center justify-between gap-6 cursor-pointer list-none text-body-md-strong text-[var(--color-ink)] select-none">
+              <summary class="flex items-center justify-between gap-6 cursor-pointer list-none text-body-md-strong text-[var(--color-ink)] select-none touch-action-manipulation" style="touch-action: manipulation;">
                 <dt>{item.question}</dt>
                 <span
                   class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full border border-[var(--color-hairline)] text-[var(--color-mute)] group-open:rotate-45 transition-transform duration-200"

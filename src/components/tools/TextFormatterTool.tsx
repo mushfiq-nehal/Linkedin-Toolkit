@@ -441,17 +441,41 @@ export default function TextFormatterTool() {
   }
 
   function appendHashtagToPost(tag: string) {
-    const newText = text.trimEnd() + '\n\n' + tag;
+    const newText = text.trimEnd() + ' ' + tag;
     setText(newText);
     pushHistory(newText);
-    setNudgeHashtags(prev => prev.filter(t => t !== tag));
+    // Keep the list intact so the user can add more hashtags
+  }
+
+  function appendAllHashtagsToPost() {
+    if (nudgeHashtags.length === 0) return;
+    const newText = text.trimEnd() + '\n\n' + nudgeHashtags.join(' ');
+    setText(newText);
+    pushHistory(newText);
   }
 
   function useHookAsOpener(hook: string) {
+    const cleanHook = stripMarkdownBold(hook);
     const rest = text.split('\n').slice(1).join('\n').trimStart();
-    const newText = rest ? `${hook}\n\n${rest}` : hook;
+    const newText = rest ? `${cleanHook}\n\n${rest}` : cleanHook;
     setText(newText);
     pushHistory(newText);
+  }
+
+  /** Strip **bold** markers from a string, returning plain text */
+  function stripMarkdownBold(str: string): string {
+    return str.replace(/\*\*(.*?)\*\*/g, '$1');
+  }
+
+  /** Render a hook string with **bold** segments as <strong> elements */
+  function renderHookText(str: string): React.ReactNode {
+    const parts = str.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, idx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={idx}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
   }
 
   // Progress bar width for char count (capped at 100%)
@@ -652,7 +676,7 @@ export default function TextFormatterTool() {
           </div>
 
           {/* Hashtag nudge */}
-          {text.length > 60 && !/#\w+/.test(text) && !nudgeDismissed && (
+          {text.length > 60 && !nudgeDismissed && (
             <div className="border-t border-[var(--color-hairline)] px-4 py-3 bg-[var(--color-canvas-soft)]">
               {nudgeHashtags.length === 0 && !nudgeLoading && !nudgeError && (
                 <div className="flex items-center justify-between gap-3">
@@ -692,7 +716,15 @@ export default function TextFormatterTool() {
 
               {nudgeHashtags.length > 0 && (
                 <div>
-                  <p className="text-caption text-[var(--color-mute)] mb-2">Click to add to your post:</p>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <p className="text-caption text-[var(--color-mute)]">Click a hashtag to add, or add all at once:</p>
+                    <button
+                      onClick={appendAllHashtagsToPost}
+                      className="shrink-0 flex items-center gap-1 px-2.5 py-1 rounded-[var(--radius-xs)] text-caption-strong text-white bg-[var(--color-ink)] hover:opacity-90 transition-opacity"
+                    >
+                      + Add All
+                    </button>
+                  </div>
                   <div className="flex flex-wrap gap-1.5">
                     {nudgeHashtags.map(tag => (
                       <button
@@ -932,7 +964,7 @@ export default function TextFormatterTool() {
                       {aiHooks.map((hook, i) => (
                         <li key={i} className="flex items-start gap-2 rounded px-3 py-2" style={{ background: '#f9fafb', border: '1px solid #e5e7eb' }}>
                           <span className="text-xs shrink-0" style={{ color: '#9ca3af', marginTop: '2px' }}>{i + 1}.</span>
-                          <span className="text-xs flex-1 leading-snug" style={{ color: '#111827' }}>{hook}</span>
+                          <span className="text-xs flex-1 leading-snug" style={{ color: '#111827' }}>{renderHookText(hook)}</span>
                           <button
                             onClick={() => useHookAsOpener(hook)}
                             className="shrink-0 text-xs px-2 py-0.5 rounded transition-colors hover:bg-white whitespace-nowrap"

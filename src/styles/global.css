@@ -125,6 +125,8 @@
     text-decoration: none;
     transition: opacity 0.15s ease;
     white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .btn-primary-sm {
@@ -146,6 +148,8 @@
     text-decoration: none;
     transition: opacity 0.15s ease;
     white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .btn-secondary {
@@ -167,6 +171,8 @@
     text-decoration: none;
     transition: border-color 0.15s ease;
     white-space: nowrap;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .card-base {
@@ -232,6 +238,7 @@
     font-weight: 600;
     line-height: 48px;
     letter-spacing: -2.4px;
+    text-wrap: balance;
   }
 
   .text-display-lg {
@@ -240,6 +247,7 @@
     font-weight: 600;
     line-height: 40px;
     letter-spacing: -1.28px;
+    text-wrap: balance;
   }
 
   .text-display-md {
@@ -248,6 +256,7 @@
     font-weight: 600;
     line-height: 32px;
     letter-spacing: -0.96px;
+    text-wrap: balance;
   }
 
   .text-display-sm {
@@ -256,6 +265,7 @@
     font-weight: 600;
     line-height: 28px;
     letter-spacing: -0.6px;
+    text-wrap: balance;
   }
 
   /* Body scale */
@@ -324,5 +334,15 @@
     width: 100%;
     height: 1px;
     background-color: var(--color-hairline);
+  }
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

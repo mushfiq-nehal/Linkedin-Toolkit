@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const stats = [
+  { value: '10+', label: 'Free tools' },
+  { value: '100%', label: 'Browser-based' },
+  { value: '0', label: 'Sign-ups needed' },
+  { value: '∞', label: 'Uses, always free' },
+];
+
+const tools = [
+  { name: 'LinkedIn Text Formatter', href: '/linkedin-text-formatter/', icon: '✦', desc: 'Bold, italic, and stylized text for standout posts.' },
+  { name: 'Post Preview', href: '/linkedin-post-preview/', icon: '◉', desc: 'See exactly how your post will look before publishing.' },
+  { name: 'Character Counter', href: '/linkedin-character-counter/', icon: '⌗', desc: 'Stay within limits and optimize for the algorithm.' },
+  { name: 'Headline Analyzer', href: '/linkedin-headline-analyzer/', icon: '◎', desc: 'Score and improve your LinkedIn headline.' },
+  { name: 'Hashtag Generator', href: '/linkedin-hashtag-generator/', icon: '＃', desc: 'Find the right hashtags to reach your audience.' },
+  { name: 'Emoji Adder', href: '/linkedin-emoji-adder/', icon: '⊕', desc: 'Add personality and visual structure to your posts.' },
+];
+---
+
+<BaseLayout
+  title="About Us | LinkedIn Toolkit"
+  description="Learn about LinkedIn Toolkit — a free, independent suite of tools built for LinkedIn professionals, creators, and job seekers who want to grow and communicate better."
+  canonical="https://linkedintoolkit.com/about-us/"
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'About Us', url: '/about-us/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">About</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Built for LinkedIn professionals who want to stand out
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        LinkedIn Toolkit is a free, independent collection of tools that help you write better, format smarter, and show up stronger on LinkedIn — no account required.
+      </p>
+    </div>
+  </div>
+
+  <!-- Mission section -->
+  <div class="bg-[var(--color-canvas-soft)]">
+    <div class="wrap-page py-16">
+      <div class="max-w-2xl flex flex-col gap-10">
+
+        <!-- Mission -->
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">Our Mission</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              LinkedIn has evolved into one of the most powerful platforms for career growth, professional networking, and thought leadership. Yet many of the tools people need to communicate effectively on it are either locked behind paywalls or scattered across the internet.
+            </p>
+            <p>
+              We built LinkedIn Toolkit to change that. Our goal is simple: give every professional — from recent graduates to seasoned executives — access to the same high-quality tools, completely free and without requiring a sign-up.
+            </p>
+          </div>
+        </section>
+
+        <!-- Stats -->
+        <section>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {stats.map((stat) => (
+              <div class="bg-[var(--color-canvas)] p-6 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)] text-center">
+                <div class="text-display-lg text-[var(--color-ink)] mb-1">{stat.value}</div>
+                <div class="text-caption text-[var(--color-mute)] uppercase tracking-wider">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- What we offer -->
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-6">What We Offer</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {tools.map((tool) => (
+              <a
+                href={tool.href}
+                class="group flex gap-4 p-4 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-md)] transition-all no-underline"
+              >
+                <span class="shrink-0 text-xl text-[var(--color-ink)] mt-0.5" aria-hidden="true">{tool.icon}</span>
+                <div>
+                  <div class="text-body-sm-strong text-[var(--color-ink)] mb-1 group-hover:underline">{tool.name}</div>
+                  <div class="text-caption text-[var(--color-mute)]">{tool.desc}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <!-- Independence notice -->
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">Independent & Unaffiliated</h2>
+          <div class="flex flex-col gap-4 text-body-md text-[var(--color-body)] leading-relaxed">
+            <p>
+              LinkedIn Toolkit is an independently developed project and is <strong>not affiliated with, endorsed by, or sponsored by LinkedIn Corporation</strong>. LinkedIn® is a registered trademark of LinkedIn Corporation.
+            </p>
+            <p>
+              We have no relationship with LinkedIn and are funded entirely by the belief that great tools should be accessible to everyone.
+            </p>
+            <a href="/disclaimer/" class="text-body-sm text-[var(--color-link)] hover:text-[var(--color-link-deep)] no-underline hover:underline">
+              Read our full disclaimer →
+            </a>
+          </div>
+        </section>
+
+        <!-- Contact CTA -->
+        <section class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+          <h2 class="text-display-sm text-[var(--color-ink)] mb-4">Get in Touch</h2>
+          <p class="text-body-md text-[var(--color-body)] leading-relaxed mb-6">
+            Have a feature request, spotted a bug, or just want to say hello? We'd love to hear from you.
+          </p>
+          <a href="/contact-us/" class="btn-primary">
+            Contact Us
+          </a>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>

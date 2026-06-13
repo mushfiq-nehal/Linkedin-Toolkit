@@ -30,10 +30,19 @@ const footerColumns = [
     ],
   },
   {
-    label: 'Site',
+    label: 'Company',
     links: [
+      { label: 'About Us', href: '/about-us/' },
+      { label: 'Contact Us', href: '/contact-us/' },
       { label: 'Resources', href: '/resources/' },
       { label: 'All Tools', href: '/tools/' },
+    ],
+  },
+  {
+    label: 'Legal',
+    links: [
+      { label: 'Privacy Policy', href: '/privacy-policy/' },
+      { label: 'Terms & Conditions', href: '/terms-and-conditions/' },
       { label: 'Disclaimer', href: '/disclaimer/' },
     ],
   },
@@ -46,7 +55,7 @@ const footerColumns = [
 >
   <div class="wrap-page py-16">
     <!-- Top: Logo + columns -->
-    <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5 mb-12">
+    <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6 mb-12">
       <!-- Brand -->
       <div class="col-span-2 sm:col-span-3 lg:col-span-1">
         <a href="/" class="flex items-center gap-2 no-underline mb-4" aria-label="LinkedIn Toolkit">
@@ -93,9 +102,11 @@ const footerColumns = [
       <p class="text-caption text-[var(--color-mute)] m-0">
         &copy; {currentYear} LinkedIn Toolkit. Not affiliated with LinkedIn.
       </p>
-      <p class="text-caption text-[var(--color-mute)] m-0">
-        Built for LinkedIn professionals.
-      </p>
+      <nav class="flex items-center gap-4" aria-label="Legal links">
+        <a href="/privacy-policy/" class="text-caption text-[var(--color-mute)] hover:text-[var(--color-body)] transition-colors no-underline">Privacy</a>
+        <a href="/terms-and-conditions/" class="text-caption text-[var(--color-mute)] hover:text-[var(--color-body)] transition-colors no-underline">Terms</a>
+        <a href="/disclaimer/" class="text-caption text-[var(--color-mute)] hover:text-[var(--color-body)] transition-colors no-underline">Disclaimer</a>
+      </nav>
     </div>
   </div>
 </footer>

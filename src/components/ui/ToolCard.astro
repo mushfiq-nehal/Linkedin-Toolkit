@@ -23,7 +23,7 @@ const iconMap: Record<string, string> = {
 <a
   href={tool.href}
   class:list={[
-    'group flex flex-col no-underline rounded-[var(--radius-md)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] transition-all duration-150 hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-lg)]',
+    'group flex flex-col no-underline rounded-[var(--radius-md)] bg-[var(--color-canvas)] border border-[var(--color-hairline)] transition-[border-color,box-shadow] duration-150 hover:border-[var(--color-hairline-strong)] hover:shadow-[var(--shadow-card-lg)]',
     size === 'large' ? 'p-8' : 'p-6',
   ]}
   aria-label={`${tool.name} — ${tool.shortDescription}`}

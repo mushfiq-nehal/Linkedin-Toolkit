@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const contactChannels = [
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 5C3 4.44772 3.44772 4 4 4H16C16.5523 4 17 4.44772 17 5V14C17 14.5523 16.5523 15 16 15H4C3.44772 15 3 14.5523 3 14V5Z" stroke="currentColor" stroke-width="1.5"/><path d="M3 5L10 10L17 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    label: 'Email',
+    value: 'hello@linkedintoolkit.com',
+    href: 'mailto:hello@linkedintoolkit.com',
+    desc: 'Best for detailed questions or bug reports.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is LinkedIn Toolkit really free?',
+    a: 'Yes — all tools are 100% free, forever. No sign-up, no credit card, no catch.',
+  },
+  {
+    q: 'Do you store the text I type into your tools?',
+    a: 'No. All tools run entirely in your browser. Nothing you type is sent to our servers.',
+  },
+  {
+    q: 'Are you affiliated with LinkedIn?',
+    a: 'No. LinkedIn Toolkit is an independent project and is not affiliated with, endorsed by, or sponsored by LinkedIn Corporation.',
+  },
+  {
+    q: 'How do I report a bug or suggest a feature?',
+    a: 'Use the contact form below or email us directly. We read every message and genuinely appreciate feedback.',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact Us | LinkedIn Toolkit"
+  description="Get in touch with the LinkedIn Toolkit team. Report bugs, request features, or ask questions about our free LinkedIn tools."
+  canonical="https://linkedintoolkit.com/contact-us/"
+  breadcrumbs={[{ name: 'Home', url: '/' }, { name: 'Contact Us', url: '/contact-us/' }]}
+>
+  <!-- Header -->
+  <div class="border-b border-[var(--color-hairline)] bg-[var(--color-canvas)] pt-14 pb-12">
+    <div class="wrap-page">
+      <span class="text-caption-mono text-[var(--color-mute)] uppercase tracking-wider mb-3 block">Support</span>
+      <h1 class="text-display-lg text-[var(--color-ink)] mb-4 max-w-2xl">
+        Contact Us
+      </h1>
+      <p class="text-body-lg text-[var(--color-body)] max-w-xl">
+        Have a question, spotted a bug, or want to suggest a feature? We're happy to hear from you.
+      </p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="bg-[var(--color-canvas-soft)] min-h-[50vh]">
+    <div class="wrap-page py-16">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl">
+
+        <!-- Left: contact info + FAQs -->
+        <div class="flex flex-col gap-6 lg:col-span-1">
+
+          <!-- Channel cards -->
+          {contactChannels.map((ch) => (
+            <div class="bg-[var(--color-canvas)] p-6 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--color-canvas-soft-2)] text-[var(--color-ink)]" aria-hidden="true" set:html={ch.icon} />
+                <span class="text-body-sm-strong text-[var(--color-ink)]">{ch.label}</span>
+              </div>
+              <a href={ch.href} class="text-body-sm text-[var(--color-link)] hover:text-[var(--color-link-deep)] hover:underline no-underline break-all">
+                {ch.value}
+              </a>
+              <p class="text-caption text-[var(--color-mute)] mt-2 mb-0">{ch.desc}</p>
+            </div>
+          ))}
+
+          <!-- Response time note -->
+          <div class="bg-[var(--color-canvas)] p-6 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+            <div class="flex items-center gap-2 mb-2">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5V8.5L10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="text-body-sm-strong text-[var(--color-ink)]">Response Time</span>
+            </div>
+            <p class="text-caption text-[var(--color-mute)] m-0">We typically respond within 1–3 business days. For urgent issues, please include "URGENT" in your subject line.</p>
+          </div>
+        </div>
+
+        <!-- Right: contact form -->
+        <div class="lg:col-span-2">
+          <div class="bg-[var(--color-canvas)] p-8 md:p-10 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+            <h2 class="text-display-sm text-[var(--color-ink)] mb-6">Send a Message</h2>
+            <form
+              id="contact-form"
+              class="flex flex-col gap-5"
+              novalidate
+              aria-label="Contact form"
+            >
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <!-- Name -->
+                <div class="flex flex-col gap-1.5">
+                  <label for="cf-name" class="text-body-sm-strong text-[var(--color-ink)]">
+                    Name <span class="text-[var(--color-error)]" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="cf-name"
+                    name="name"
+                    type="text"
+                    required
+                    autocomplete="name"
+                    placeholder="Your name"
+                    class="h-10 px-3 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-body-md text-[var(--color-ink)] placeholder:text-[var(--color-mute)] focus:outline-none focus:border-[var(--color-hairline-strong)] transition-colors"
+                  />
+                </div>
+                <!-- Email -->
+                <div class="flex flex-col gap-1.5">
+                  <label for="cf-email" class="text-body-sm-strong text-[var(--color-ink)]">
+                    Email <span class="text-[var(--color-error)]" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="cf-email"
+                    name="email"
+                    type="email"
+                    required
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    class="h-10 px-3 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-body-md text-[var(--color-ink)] placeholder:text-[var(--color-mute)] focus:outline-none focus:border-[var(--color-hairline-strong)] transition-colors"
+                  />
+                </div>
+              </div>
+
+              <!-- Subject -->
+              <div class="flex flex-col gap-1.5">
+                <label for="cf-subject" class="text-body-sm-strong text-[var(--color-ink)]">Subject</label>
+                <select
+                  id="cf-subject"
+                  name="subject"
+                  class="h-10 px-3 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-body-md text-[var(--color-ink)] focus:outline-none focus:border-[var(--color-hairline-strong)] transition-colors appearance-none"
+                >
+                  <option value="">Select a topic…</option>
+                  <option value="bug">Bug report</option>
+                  <option value="feature">Feature request</option>
+                  <option value="question">General question</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <!-- Message -->
+              <div class="flex flex-col gap-1.5">
+                <label for="cf-message" class="text-body-sm-strong text-[var(--color-ink)]">
+                  Message <span class="text-[var(--color-error)]" aria-hidden="true">*</span>
+                </label>
+                <textarea
+                  id="cf-message"
+                  name="message"
+                  required
+                  rows="5"
+                  placeholder="Tell us what's on your mind…"
+                  class="px-3 py-2.5 rounded-[var(--radius-sm)] border border-[var(--color-hairline)] bg-[var(--color-canvas-soft)] text-body-md text-[var(--color-ink)] placeholder:text-[var(--color-mute)] focus:outline-none focus:border-[var(--color-hairline-strong)] transition-colors resize-y min-h-[120px]"
+                ></textarea>
+              </div>
+
+              <!-- Submit -->
+              <div class="flex items-center gap-4">
+                <button type="submit" id="cf-submit" class="btn-primary">
+                  Send Message
+                </button>
+                <p id="cf-status" class="text-body-sm text-[var(--color-mute)] m-0 hidden" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="max-w-5xl mt-16">
+        <h2 class="text-display-sm text-[var(--color-ink)] mb-6">Frequently Asked Questions</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {faqs.map((faq) => (
+            <div class="bg-[var(--color-canvas)] p-6 rounded-[var(--radius-md)] border border-[var(--color-hairline)] shadow-[var(--shadow-card-md)]">
+              <p class="text-body-sm-strong text-[var(--color-ink)] mb-2">{faq.q}</p>
+              <p class="text-body-sm text-[var(--color-body)] m-0">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusEl = document.getElementById('cf-status') as HTMLElement | null;
+  const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !statusEl || !submitBtn) return;
+
+    const data = new FormData(form);
+    const name = (data.get('name') as string)?.trim();
+    const email = (data.get('email') as string)?.trim();
+    const message = (data.get('message') as string)?.trim();
+
+    // Basic client-side validation
+    if (!name || !email || !message) {
+      statusEl.textContent = 'Please fill in all required fields.';
+      statusEl.style.color = 'var(--color-error)';
+      statusEl.classList.remove('hidden');
+      return;
+    }
+
+    // Simulate submission (replace with your actual endpoint)
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    statusEl.classList.add('hidden');
+
+    await new Promise((r) => setTimeout(r, 1000));
+
+    // Show success
+    form.reset();
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Message';
+    statusEl.textContent = '✓ Message sent! We\'ll get back to you soon.';
+    statusEl.style.color = 'var(--color-success)';
+    statusEl.classList.remove('hidden');
+
+    setTimeout(() => statusEl.classList.add('hidden'), 6000);
+  });
+</script>
