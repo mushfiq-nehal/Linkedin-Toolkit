@@ -15,6 +15,7 @@ export interface Props {
   relatedTools?: Tool[];
   breadcrumbs?: Array<{ name: string; url: string }>;
   schema?: object;
+  ogImage?: string;
 }
 
 const {
@@ -26,6 +27,7 @@ const {
   relatedTools = [],
   breadcrumbs,
   schema,
+  ogImage,
 } = Astro.props;
 
 const defaultBreadcrumbs = breadcrumbs ?? [
@@ -57,6 +59,7 @@ const toolSchema = schema ?? {
   description={description}
   breadcrumbs={defaultBreadcrumbs}
   schema={toolSchema}
+  ogImage={ogImage}
   ogType="website"
 >
   <!-- Breadcrumb -->
